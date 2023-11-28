@@ -1,6 +1,7 @@
 package com.dev.nossaescola.controller;
 
 import com.dev.nossaescola.model.Aluno;
+import com.dev.nossaescola.model.Colaborador;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 public class EscolaController {
 
     private List<Aluno> alunos = new ArrayList<>();  // Lista de alunos
+    private List<Colaborador> colaboradores = new ArrayList<>();  // Lista de alunos
 
     @GetMapping("/alunos")
     public String exibePaginaAlunos(Model model) {
@@ -23,7 +25,9 @@ public class EscolaController {
     }
 
     @GetMapping("/colaboradores")
-    public String exibePaginaColaboradores() {
+    public String exibePaginaColaboradores(Model model) {
+        model.addAttribute("colaborador", new Colaborador());
+        model.addAttribute("colaboradores", colaboradores);  
         return "colaboradores";
     }
 
@@ -39,5 +43,13 @@ public class EscolaController {
         aluno.setId(alunos.size() + 1);
         alunos.add(aluno);
         return "redirect:/alunos";
+    }
+
+    @PostMapping("/cadastrar-colaborador")
+    public String cadastrarColaborador(@ModelAttribute Colaborador colaborador, Model model) {
+        model.addAttribute("colaborador", new Colaborador());
+        colaborador.setId(colaboradores.size() + 1);
+        colaboradores.add(colaborador);
+        return "redirect:/colaboradores";
     }
 }

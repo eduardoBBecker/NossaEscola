@@ -23,7 +23,7 @@
 
                     <!-- Barra de Pesquisa -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Pesquisar colaborador..." aria-label="Pesquisar colaborador" aria-describedby="button-pesquisar">
+                        <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do colaborador para pesquisar..." aria-label="Pesquisar colaborador" aria-describedby="button-pesquisar">
                         <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
                     </div>
 
@@ -31,6 +31,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Nome</th>
                                 <th>CPF</th>
                                 <th>Cargo</th>
@@ -38,7 +39,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Adicione as linhas da tabela conforme necessário -->
+                            <tr th:each="colaborador : ${colaboradores}">
+                                <td th:text="${colaborador.id}"></td>
+                                <td th:text="${colaborador.nome}"></td>
+                                <td th:text="${colaborador.cpf}"></td>
+                                <td th:text="${colaborador.cargo}"></td>
+                                <td th:text="${colaborador.salario}"></td>
+                            </tr>
                         </tbody>
                     </table>
 
@@ -52,24 +59,23 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Formulário de cadastro do colaborador aqui -->
-                                    <form>
+                                    <form th:action="@{/cadastrar-colaborador}" method="post" th:object="${colaborador}" class="form" onsubmit="return validateForm(this);">
                                         <div class="mb-3">
                                             <label for="nome" class="form-label">Nome:</label>
-                                            <input type="text" class="form-control" id="nome" name="nome">
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="cpf" class="form-label">CPF:</label>
-                                            <input type="text" class="form-control" id="cpf" name="cpf">
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="cargo" class="form-label">Cargo:</label>
-                                            <input type="text" class="form-control" id="cpf" name="cargo">
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cargo}" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="salario" class="form-label">Salario</label>
-                                            <input type="text" class="form-control" id="salario" name="salario">
+                                            <input type="text" class="form-control" id="salario" th:field="*{salario}" required>
                                         </div>
-                                        <!-- Adicione mais campos conforme necessário -->
                                         <button type="submit" class="btn btn-primary">Cadastrar</button>
                                     </form>
                                 </div>
@@ -80,6 +86,9 @@
                 </div>
             </div>
         </div>
+
         <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script th:src="@{/js/script.js}"></script>
     </body>
 </html>
