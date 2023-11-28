@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Cadastro de Colaboradores</title>
+
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    </head>
+    <body>
+
+        <header th:insert="~{sidebar.html}"></header>
+
+        <!-- Conteúdo -->
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+                    <!-- Botão "Cadastrar Colaborador" -->
+                    <button type="button" class="btn btn-primary float-end m-3" data-bs-toggle="modal" data-bs-target="#cadastroModal">
+                        Cadastrar Colaborador
+                    </button>
+
+                    <!-- Barra de Pesquisa -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Pesquisar colaborador..." aria-label="Pesquisar colaborador" aria-describedby="button-pesquisar">
+                        <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
+                    </div>
+
+                    <!-- Lista de Alunos -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Cargo</th>
+                                <th>Salário</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Adicione as linhas da tabela conforme necessário -->
+                        </tbody>
+                    </table>
+
+                    <!-- Modal de Cadastro -->
+                    <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cadastroModalLabel">Cadastrar Novo Colaborador</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulário de cadastro do colaborador aqui -->
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome:</label>
+                                            <input type="text" class="form-control" id="nome" name="nome">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cpf" class="form-label">CPF:</label>
+                                            <input type="text" class="form-control" id="cpf" name="cpf">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cargo" class="form-label">Cargo:</label>
+                                            <input type="text" class="form-control" id="cpf" name="cargo">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="salario" class="form-label">Salario</label>
+                                            <input type="text" class="form-control" id="salario" name="salario">
+                                        </div>
+                                        <!-- Adicione mais campos conforme necessário -->
+                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Cadastro de Alunos</title>
+
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    </head>
+    <body>
+
+        <header th:insert="~{sidebar.html}"></header>
+
+        <!-- Conteúdo -->
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+                    <!-- Botão "Cadastrar Aluno" -->
+                    <button type="button" class="btn btn-primary float-end m-3" data-bs-toggle="modal" data-bs-target="#cadastroModal">
+                        Cadastrar Aluno
+                    </button>
+
+                    <!-- Barra de Pesquisa -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do aluno para pesquisar..." aria-label="Pesquisar aluno" aria-describedby="button-pesquisar">
+                        <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
+                    </div>
+
+                    <!-- Lista de Alunos -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Data Nascimento</th>
+                                <th>Sexo</th>
+                                <th>Nome da Mãe</th>
+                                <th>Turno</th>
+                                <th>Mensalidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Loop para listar os filmes -->
+                            <tr th:each="aluno : ${alunos}">
+                                <td th:text="${aluno.id}"></td>
+                                <td th:text="${aluno.nome}"></td>
+                                <td th:text="${aluno.dataNasc}"></td>
+                                <td th:text="${aluno.sexo}"></td>
+                                <td th:text="${aluno.nomeMae}"></td>
+                                <td th:text="${aluno.turno}"></td>
+                                <td th:text="${aluno.mensalidade}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Modal de Cadastro -->
+                    <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cadastroModalLabel">Cadastrar Novo Aluno</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulário de cadastro do aluno aqui -->
+                                    <form th:action="@{/cadastrar-aluno}" method="post" th:object="${aluno}" class="form" onsubmit="return validateForm(this);">
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome:</label>
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
+                                            <input type="date" class="form-control" id="dataNascimento" th:field="*{dataNasc}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sexo" class="form-label">Sexo:</label>
+                                            <select class="form-select" id="sexo" th:field="*{sexo}" required>
+                                                <option value="Masculino">Masculino</option>
+                                                <option value="Feminino">Feminino</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nomeMae" class="form-label">Nome da Mãe:</label>
+                                            <input type="text" class="form-control" id="nomeMae" th:field="*{nomeMae}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="turno" class="form-label">Turno:</label>
+                                            <select class="form-select" id="turno" th:field="*{turno}">
+                                                <option value="Integral">Integral</option>
+                                                <option value="Meio">Meio</option>
+                                                <option value="Parcial">Parcial</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="valorMensalidade" class="form-label">Valor da Mensalidade:</label>
+                                            <input type="text" class="form-control" id="valorMensalidade" th:field="*{mensalidade}">
+                                        </div>
+                                        <!-- Adicione mais campos conforme necessário -->
+                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#button-pesquisar").on("click", function () {
+                    var value = $("#inputPesquisa").val().toLowerCase();
+                    $(".table tbody tr").filter(function () {
+                        $(this).toggle($(this).find('td:nth-child(2)').text().toLowerCase().indexOf(value) > -1);
+                    });
+                });
+            });
+        </script>
+
+    </body>
+</html>
