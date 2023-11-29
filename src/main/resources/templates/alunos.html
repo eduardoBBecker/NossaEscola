@@ -53,24 +53,37 @@
                                 <td th:text="${aluno.mensalidade}"></td>
                                 <td>
                                     <!-- Botão Editar -->
-                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal" th:attr="data-id=${aluno.id}">
+                                    <button type="button" class="btn btn-warning btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editarModal" 
+                                            th:attr="data-id=${aluno.id}">
                                         Editar
                                     </button>
 
                                     <!-- Botão Excluir -->
-                                    <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${aluno.id}" onclick="excluirAluno(this)">
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                            th:attr="data-id=${aluno.id}" 
+                                            onclick="excluirAluno(this)">
                                         Excluir
                                     </button>
 
                                     <!-- Botão Cadastrar Responsável -->
-                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#cadastrarResponsavelModal" th:attr="data-aluno-id=${aluno.id}" onclick="prepararCadastroResponsavel(this)">
+                                    <button type="button" class="btn btn-success btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#cadastrarResponsavelModal" 
+                                            th:attr="data-aluno-id=${aluno.id}" 
+                                            onclick="prepararCadastroResponsavel(this)">
                                         Cadastrar Responsável
                                     </button>
 
-                                    <!-- Botão Ver Responsável -->
-                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#verResponsavelModal" data-aluno-id="${aluno.id}">
+                                    <button type="button" class="btn btn-info btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#verResponsavelModal" 
+                                            th:attr="data-aluno-id=${aluno.id}" 
+                                            onclick="prepararVerResponsavel(this)">
                                         Ver Responsável
                                     </button>
+
                                 </td>                                
                             </tr>
                         </tbody>
@@ -159,15 +172,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Modal de Visualização de Responsável -->
-                    <div class="modal fade" id="verResponsavelModal" tabindex="-1" aria-labelledby="verResponsavelModalLabel" aria-hidden="true">
-                        <!-- Conteúdo da modal aqui -->
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
         <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

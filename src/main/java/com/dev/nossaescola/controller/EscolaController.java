@@ -20,6 +20,11 @@ public class EscolaController {
     private List<Colaborador> colaboradores = new ArrayList<>();  // Lista de colabores
     private List<Responsavel> responsaveis = new ArrayList<>(); // Lista para armazenar responsaveis
 
+    @GetMapping("/mensalidades")
+    public String mostraPaginaMensalidades() {
+        return "mensalidades";
+    }
+
     @GetMapping("/alunos")
     public String exibePaginaAlunos(Model model) {
         model.addAttribute("aluno", new Aluno());  // Adiciona um objeto Aluno ao modelo
@@ -51,18 +56,6 @@ public class EscolaController {
         return "redirect:/colaboradores";
     }
 
-    /*@GetMapping("/cadastrar-responsavel")
-    public String exibirFormularioCadastrarResponsavel(@RequestParam("alunoId") int alunoId, Model model) {
-        Aluno aluno = buscarAlunoPorId(alunoId);
-
-        Responsavel responsavel = new Responsavel();
-        responsavel.setAluno(aluno);
-
-        model.addAttribute("responsavel", responsavel);
-        model.addAttribute("aluno", aluno);
-
-        return "cadastrar-responsavel";
-    }*/
     public Aluno buscarAlunoPorId(int alunoId) {
         for (Aluno aluno : alunos) {
             if (aluno.getId() == alunoId) {
@@ -98,5 +91,4 @@ public class EscolaController {
             return "redirect:/erro";
         }
     }
-
 }
