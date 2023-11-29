@@ -33,18 +33,32 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nome</th>
+                                <th>Telefone</th>
                                 <th>CPF</th>
                                 <th>Cargo</th>
                                 <th>Salário</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="colaborador : ${colaboradores}">
                                 <td th:text="${colaborador.id}"></td>
                                 <td th:text="${colaborador.nome}"></td>
+                                <td th:text="${colaborador.telefone}"></td>
                                 <td th:text="${colaborador.cpf}"></td>
                                 <td th:text="${colaborador.cargo}"></td>
                                 <td th:text="${colaborador.salario}"></td>
+                                <td>
+                                    <!-- Botão Editar -->
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal" th:attr="data-id=${colaborador.id}">
+                                        Editar
+                                    </button>
+
+                                    <!-- Botão Excluir -->
+                                    <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${colaborador.id}" onclick="excluirColaborador(this)">
+                                        Excluir
+                                    </button>
+                                </td>       
                             </tr>
                         </tbody>
                     </table>
@@ -63,6 +77,10 @@
                                         <div class="mb-3">
                                             <label for="nome" class="form-label">Nome:</label>
                                             <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="telefone" class="form-label">Telefone:</label>
+                                            <input type="text" class="form-control" id="nome" th:field="*{telefone}" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="cpf" class="form-label">CPF:</label>

@@ -1,24 +1,24 @@
 package com.dev.nossaescola.model;
 
-public class Colaborador {
+public class Responsavel {
 
     private int id;
     private String nome;
     private String telefone;
     private String cpf;
-    private String cargo;
-    private Double salario;
+    private String endereco;
+    private Aluno aluno;
 
-    public Colaborador() {
+    public Responsavel() {
     }
 
-    public Colaborador(int id, String nome, String telefone, String cpf, String cargo, Double salario) {
+    public Responsavel(int id, String nome, String telefone, String cpf, String endereco, Aluno aluno) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.cpf = cpf;
-        this.cargo = cargo;
-        this.salario = salario;
+        this.endereco = endereco;
+        this.aluno = aluno;
     }
 
     public int getId() {
@@ -53,22 +53,23 @@ public class Colaborador {
         this.cpf = cpf;
     }
 
-    public String getCargo() {
-        return cargo;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    public Double getSalario() {
-        return salario;
+    public Aluno getAluno() {
+        return aluno;
     }
 
-    public void setSalario(Double salario) {
-        this.salario = salario;
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
     
     
+
 
 }

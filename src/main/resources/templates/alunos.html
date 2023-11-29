@@ -38,6 +38,7 @@
                                 <th>Nome da Mãe</th>
                                 <th>Turno</th>
                                 <th>Mensalidade</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,11 +51,32 @@
                                 <td th:text="${aluno.nomeMae}"></td>
                                 <td th:text="${aluno.turno}"></td>
                                 <td th:text="${aluno.mensalidade}"></td>
+                                <td>
+                                    <!-- Botão Editar -->
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal" th:attr="data-id=${aluno.id}">
+                                        Editar
+                                    </button>
+
+                                    <!-- Botão Excluir -->
+                                    <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${aluno.id}" onclick="excluirAluno(this)">
+                                        Excluir
+                                    </button>
+
+                                    <!-- Botão Cadastrar Responsável -->
+                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#cadastrarResponsavelModal" th:attr="data-aluno-id=${aluno.id}" onclick="prepararCadastroResponsavel(this)">
+                                        Cadastrar Responsável
+                                    </button>
+
+                                    <!-- Botão Ver Responsável -->
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#verResponsavelModal" data-aluno-id="${aluno.id}">
+                                        Ver Responsável
+                                    </button>
+                                </td>                                
                             </tr>
                         </tbody>
                     </table>
 
-                    <!-- Modal de Cadastro -->
+                    <!-- Modal de Cadastro de Aluno -->
                     <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -88,7 +110,7 @@
                                             <label for="turno" class="form-label">Turno:</label>
                                             <select class="form-select" id="turno" th:field="*{turno}">
                                                 <option value="Integral">Integral</option>
-                                                <option value="Meio">Meio</option>
+                                                <option value="Meio">Intermediário</option>
                                                 <option value="Parcial">Parcial</option>
                                             </select>
                                         </div>
@@ -96,12 +118,51 @@
                                             <label for="valorMensalidade" class="form-label">Valor da Mensalidade:</label>
                                             <input type="text" class="form-control" id="valorMensalidade" th:field="*{mensalidade}">
                                         </div>
-                                        <!-- Adicione mais campos conforme necessário -->
                                         <button type="submit" class="btn btn-primary">Cadastrar</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Modal de Cadastro de Responsável -->
+                    <div class="modal fade" id="cadastrarResponsavelModal" tabindex="-1" aria-labelledby="cadastrarResponsavelModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cadastrarResponsavelModalLabel">Cadastrar Responsável</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulário de cadastro do responsável aqui -->
+                                    <form id="responsavelForm" th:action="@{/cadastrar-responsavel}" method="post" th:object="${responsavel}" class="form" onsubmit="return validateForm(this);">
+                                        <input type="hidden" id="alunoId" name="alunoId" />
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome:</label>
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cpf" class="form-label">CPF:</label>
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="telefone" class="form-label">Telefone:</label>
+                                            <input type="text" class="form-control" id="telefone" th:field="*{telefone}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="endereco" class="form-label">Endereço:</label>
+                                            <input type="text" class="form-control" id="endereco" th:field="*{endereco}" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal de Visualização de Responsável -->
+                    <div class="modal fade" id="verResponsavelModal" tabindex="-1" aria-labelledby="verResponsavelModalLabel" aria-hidden="true">
+                        <!-- Conteúdo da modal aqui -->
                     </div>
 
                 </div>
@@ -111,6 +172,5 @@
         <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script th:src="@{/js/script.js}"></script>
-
     </body>
 </html>
