@@ -13,8 +13,8 @@ import lombok.Data;
 public class AlunoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String nome;
     private String dataNasc;
     private String sexo;
