@@ -25,6 +25,11 @@ public class EscolaController {
         return "mensalidades";
     }
 
+    @GetMapping("/responsaveis")
+    public String mostraPaginaResonsaveis() {
+        return "responsaveis";
+    }
+
     @GetMapping("/alunos")
     public String exibePaginaAlunos(Model model) {
         model.addAttribute("aluno", new Aluno());  // Adiciona um objeto Aluno ao modelo

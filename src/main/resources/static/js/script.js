@@ -17,3 +17,4 @@ function prepararCadastroResponsavel(button) {
 $('#cadastrarResponsavelModal').on('hidden.bs.modal', function () {
     document.getElementById('responsavelForm').reset();
 });
+

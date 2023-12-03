@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Cadastro de Colaboradores</title>
+
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    </head>
+    <body>
+
+        <header th:insert="~{sidebar.html}"></header>
+
+        <!-- Conteúdo -->
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                    <h2 class="mb-4">Responsáveis</h2>
+                    
+                    <!-- Barra de Pesquisa -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do responsável para pesquisar..." aria-label="Pesquisar responsável" aria-describedby="button-pesquisar">
+                        <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
+                    </div>
+
+                    <!-- Lista de Alunos -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Telefone</th>
+                                <th>CPF</th>
+                                <th>Endereço</th>
+                                <th>Aluno</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="responsavel : ${responsaveis}">
+                                <td th:text="${responsavel.id}"></td>
+                                <td th:text="${responsavel.nome}"></td>
+                                <td th:text="${responsavel.telefone}"></td>
+                                <td th:text="${responsavel.cpf}"></td>
+                                <td th:text="${responsavel.endereco}"></td>
+                                <td th:text="${responsavel.aluno.nome}"></td>
+                                <td>
+                                    <!-- Botão Editar -->
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal" th:attr="data-id=${responsavel.id}">
+                                        Editar
+                                    </button>
+
+                                    <!-- Botão Excluir -->
+                                    <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${responsavel.id}" onclick="excluirResponsavel(this)">
+                                        Excluir
+                                    </button>
+                                </td>       
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script th:src="@{/js/script.js}"></script>
+    </body>
+</html>

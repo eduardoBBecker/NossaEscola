@@ -14,7 +14,8 @@
         <!-- Conteúdo -->
         <div class="container-fluid mt-5">
             <div class="row">
-                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                    <h2 class="mb-4">Cadastro de alunos</h2>
 
                     <!-- Botão "Cadastrar Aluno" -->
                     <button type="button" class="btn btn-primary float-end m-3" data-bs-toggle="modal" data-bs-target="#cadastroModal">
@@ -37,7 +38,7 @@
                                 <th>Sexo</th>
                                 <th>Nome da Mãe</th>
                                 <th>Turno</th>
-                                <th>Mensalidade</th>
+                                <th>Valor Mensalidade</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -101,7 +102,7 @@
                                     <!-- Formulário de cadastro do aluno aqui -->
                                     <form th:action="@{/cadastrar-aluno}" method="post" th:object="${aluno}" class="form" onsubmit="return validateForm(this);">
                                         <div class="mb-3">
-                                            <label for="nome" class="form-label">Nome:</label>
+                                            <label for="nome" class="form-label">Nome Completo:</label>
                                             <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
                                         </div>
                                         <div class="mb-3">
@@ -173,8 +174,8 @@
                         </div>
                     </div>
 
-        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script th:src="@{/js/script.js}"></script>
-    </body>
-</html>
+                    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script th:src="@{/js/script.js}"></script>
+                    </body>
+                    </html>
