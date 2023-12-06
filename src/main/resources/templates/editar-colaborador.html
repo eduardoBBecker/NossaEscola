@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Colaborador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <header th:insert="~{sidebar.html}"></header>
+
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                <h2 class="mt-4 mb-4">Editando o colaborador</h2>
+                <form th:action="@{/salvar-edicao}" method="post" th:object="${colaborador}" class="form" onsubmit="return validateForm(this);">
+
+                    <input type="hidden" th:field="${colaborador.id}" />
+
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome Completo:</label>
+                        <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone:</label>
+                        <input type="text" class="form-control" id="telefone" th:field="*{telefone}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cpf" class="form-label">CPF:</label>
+                        <input type="text" class="form-control" id="cpf" th:field="*{cpf}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cargo" class="form-label">Cargo:</label>
+                        <select class="form-select" id="cargo" th:field="*{cargo}">
+                            <option value="Pedagogo">Pedagogo(a)</option>
+                            <option value="Professor">Professor(a)</option>
+                            <option value="Serviços Gerais">Serviços Gerais</option>
+                            <option value="Cozinheiro">Cozinheiro(a)</option>
+                            <option value="Seguranca">Segurança</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salario" class="form-label">Salario</label>
+                        <input type="text" class="form-control" id="salario" th:field="*{salario}" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -18,3 +18,19 @@ $('#cadastrarResponsavelModal').on('hidden.bs.modal', function () {
     document.getElementById('responsavelForm').reset();
 });
 
+
+function confirmarExclusao(button) {
+    var nome = button.getAttribute('data-nome');
+    var confirmacao = confirm('Tem certeza que deseja exluir o colaborador: ' + nome + '?');
+        
+    if (confirmacao) {
+        // A exclusão foi confirmada
+        exibirMensagemExclusao();
+    }
+
+    return confirmacao;
+}
+
+function exibirMensagemExclusao() {
+    alert("Cadastro excluído com sucesso!");
+}

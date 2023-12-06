@@ -54,13 +54,10 @@
                                 <td th:text="${aluno.mensalidade}"></td>
                                 <td>
                                     <!-- Botão Editar -->
-                                    <button type="button" class="btn btn-warning btn-sm" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#editarModal" 
-                                            th:attr="data-id=${aluno.id}">
+                                    <a th:href="@{'/editar-aluno/' + ${aluno.id}}"
+                                       type="button" class="btn btn-warning btn-sm">
                                         Editar
-                                    </button>
-
+                                    </a>
                                     <!-- Botão Excluir -->
                                     <button type="button" class="btn btn-danger btn-sm" 
                                             th:attr="data-id=${aluno.id}" 

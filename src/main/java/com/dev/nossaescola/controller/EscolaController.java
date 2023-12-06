@@ -1,67 +1,105 @@
 package com.dev.nossaescola.controller;
 
+import com.dev.nossaescola.data.AlunoEntity;
+import com.dev.nossaescola.data.ColaboradorEntity;
 import com.dev.nossaescola.model.Aluno;
 import com.dev.nossaescola.model.Colaborador;
 import com.dev.nossaescola.model.Responsavel;
+import com.dev.nossaescola.service.AlunoService;
+import com.dev.nossaescola.service.ColaboradorService;
+import com.dev.nossaescola.service.ResponsavelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class EscolaController {
 
-    private List<Aluno> alunos = new ArrayList<>();  // Lista de alunos
-    private List<Colaborador> colaboradores = new ArrayList<>();  // Lista de colabores
-    private List<Responsavel> responsaveis = new ArrayList<>(); // Lista para armazenar responsaveis
+    @Autowired
+    AlunoService alunoService;
 
-    @GetMapping("/mensalidades")
-    public String mostraPaginaMensalidades() {
-        return "mensalidades";
-    }
+    @Autowired
+    ColaboradorService colaboradorService;
 
-    @GetMapping("/responsaveis")
-    public String mostraPaginaResonsaveis() {
-        return "responsaveis";
-    }
+    @Autowired
+    ResponsavelService responsavelService;
 
-    @GetMapping("/alunos")
+    @GetMapping("/lista-alunos")
     public String exibePaginaAlunos(Model model) {
-        model.addAttribute("aluno", new Aluno());  // Adiciona um objeto Aluno ao modelo
-        model.addAttribute("alunos", alunos);  // Adiciona a lista de alunos ao modelo
+        model.addAttribute("aluno", new Aluno()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("alunos", alunoService.listarTodosAlunos());
         model.addAttribute("responsavel", new Responsavel());
-        return "alunos";
+        return "lista-alunos";
     }
 
     @GetMapping("/colaboradores")
     public String exibePaginaColaboradores(Model model) {
-        model.addAttribute("colaborador", new Colaborador());
-        model.addAttribute("colaboradores", colaboradores);
+        model.addAttribute("colaborador", new Colaborador()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores());
         return "colaboradores";
     }
 
     @PostMapping("/cadastrar-aluno")
-    public String cadastrarAluno(@ModelAttribute Aluno aluno, Model model) {
-        model.addAttribute("aluno", new Aluno());
-        aluno.setId(alunos.size() + 1);
-        alunos.add(aluno);
-        return "redirect:/alunos";
+    public String cadastrarAluno(@ModelAttribute AlunoEntity aluno, Model model) {
+        alunoService.criarAluno(aluno);
+        return "redirect:/lista-alunos";
+    }
+
+    @GetMapping("/editar-aluno/{id}")
+    public String exibirFormularioEditarAluno(@PathVariable Integer id, Model model) {
+
+        AlunoEntity aluno = alunoService.getAlunoId(id);
+
+        if (aluno != null) {
+            model.addAttribute("aluno", aluno);
+            return "editar-aluno";
+        } else {
+            return "redirect:/erro";
+        }
+    }
+
+    @PostMapping("/salvar-edicao-aluno")
+    public String salvarEdicaoAluno(@ModelAttribute AlunoEntity aluno) {
+        alunoService.atualizarAluno(aluno.getId(), aluno);
+        return "redirect:/lista-alunos";
     }
 
     @PostMapping("/cadastrar-colaborador")
-    public String cadastrarColaborador(@ModelAttribute Colaborador colaborador, Model model) {
-        model.addAttribute("colaborador", new Colaborador());
-        colaborador.setId(colaboradores.size() + 1);
-        colaboradores.add(colaborador);
+    public String cadastrarColaborador(@ModelAttribute ColaboradorEntity colaborador, Model model) {
+        colaboradorService.criarColaborador(colaborador);
         return "redirect:/colaboradores";
     }
 
-    public Aluno buscarAlunoPorId(int alunoId) {
+    @GetMapping("/colaboradores/deletar/{id}")
+    public String deletarColaborador(@PathVariable(value = "id") Integer id) {
+        colaboradorService.deletarColaborador(id);
+        return "redirect:/colaboradores";
+    }
+
+    @PostMapping("/salvar-edicao")
+    public String salvarEdicaoColaborador(@ModelAttribute ColaboradorEntity colaborador) {
+        colaboradorService.atualizarColaborador(colaborador.getId(), colaborador);
+        return "redirect:/colaboradores";
+    }
+
+    @GetMapping("/editar-colaborador/{id}")
+    public String exibirFormularioEditarColaborador(@PathVariable Integer id, Model model) {
+
+        ColaboradorEntity colaborador = colaboradorService.getColaboradorId(id);
+
+        if (colaborador != null) {
+            model.addAttribute("colaborador", colaborador);
+            return "editar-colaborador";
+        } else {
+            return "redirect:/erro";
+        }
+    }
+
+    /*public Aluno buscarAlunoPorId(int alunoId) {
         for (Aluno aluno : alunos) {
             if (aluno.getId() == alunoId) {
                 return aluno;
@@ -95,5 +133,5 @@ public class EscolaController {
         } else {
             return "redirect:/erro";
         }
-    }
+    }*/
 }
