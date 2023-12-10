@@ -57,7 +57,7 @@ function confirmarExclusaoResponsavel(button) {
 function validarCamposAoSalvar() {
     var cpf = document.getElementById('cpf').value;
     var telefone = document.getElementById('telefone').value;
-    
+
     if (!/^\d{11}$/.test(cpf)) {
         alert('CPF preenchido incorretamente. Por favor, informe os 11 dígitos numéricos.');
         return false;
@@ -111,3 +111,10 @@ function prepararVerResponsavel(button) {
         }
     });
 }
+
+$(document).ready(function(){
+    // Adicione este script para ocultar a mensagem após 4 segundos
+    setTimeout(function(){
+        $('.alert-success').fadeOut('slow');
+    }, 4000);
+});

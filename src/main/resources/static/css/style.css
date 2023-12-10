@@ -1,4 +1,14 @@
 h2 {
     text-transform: uppercase;
-    font-family: 'Arial', sans-serif; 
+    font-family: 'Arial', sans-serif;
+}
+
+.custom-alert {
+    width: 30%; /* ou qualquer largura desejada */
+    margin: 0 auto; /* isso centraliza horizontalmente */
+    text-align: center; /* isso centraliza o texto dentro da div */
+}
+
+.custom-text {
+    /* Adicione estilos adicionais para o texto, se desejar */
 }

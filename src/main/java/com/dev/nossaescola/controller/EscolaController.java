@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class EscolaController {
@@ -48,8 +49,9 @@ public class EscolaController {
     }
 
     @PostMapping("/cadastrar-aluno")
-    public String cadastrarAluno(@ModelAttribute AlunoEntity aluno, Model model) {
+    public String cadastrarAluno(@ModelAttribute AlunoEntity aluno, Model model, RedirectAttributes redirectAttributes) {
         alunoService.criarAluno(aluno);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/lista-alunos";
     }
 
@@ -67,14 +69,16 @@ public class EscolaController {
     }
 
     @PostMapping("/salvar-edicao-aluno")
-    public String salvarEdicaoAluno(@ModelAttribute AlunoEntity aluno) {
+    public String salvarEdicaoAluno(@ModelAttribute AlunoEntity aluno, RedirectAttributes redirectAttributes) {
         alunoService.atualizarAluno(aluno.getId(), aluno);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso");
         return "redirect:/lista-alunos";
     }
 
     @PostMapping("/cadastrar-colaborador")
-    public String cadastrarColaborador(@ModelAttribute ColaboradorEntity colaborador, Model model) {
+    public String cadastrarColaborador(@ModelAttribute ColaboradorEntity colaborador, RedirectAttributes redirectAttributes) {
         colaboradorService.criarColaborador(colaborador);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso");
         return "redirect:/colaboradores";
     }
 
@@ -85,8 +89,9 @@ public class EscolaController {
     }
 
     @PostMapping("/salvar-edicao")
-    public String salvarEdicaoColaborador(@ModelAttribute ColaboradorEntity colaborador) {
+    public String salvarEdicaoColaborador(@ModelAttribute ColaboradorEntity colaborador, RedirectAttributes redirectAttributes) {
         colaboradorService.atualizarColaborador(colaborador.getId(), colaborador);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/colaboradores";
     }
 
@@ -111,13 +116,13 @@ public class EscolaController {
     }
 
     @PostMapping("/cadastrar-responsavel")
-    public String cadastrarResponsavel(@ModelAttribute ResponsavelEntity responsavel, @RequestParam("alunoId") int alunoId) {
+    public String cadastrarResponsavel(@ModelAttribute ResponsavelEntity responsavel, @RequestParam("alunoId") int alunoId, RedirectAttributes redirectAttributes) {
         AlunoEntity aluno = alunoService.getAlunoId(alunoId);
 
         if (aluno != null) {
             responsavel.setAluno(aluno);
             responsavelService.criarResponsavel(responsavel);
-
+            redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
             return "redirect:/lista-alunos";
         } else {
             return "redirect:/erro";
@@ -131,8 +136,9 @@ public class EscolaController {
     }
 
     @PostMapping("/salvar-edicao-responsavel")
-    public String salvarEdicaoResponsavel(@ModelAttribute ResponsavelEntity responsavel) {
+    public String salvarEdicaoResponsavel(@ModelAttribute ResponsavelEntity responsavel, RedirectAttributes redirectAttributes) {
         responsavelService.atualizarResponsavel(responsavel.getId(), responsavel);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/responsaveis";
     }
 

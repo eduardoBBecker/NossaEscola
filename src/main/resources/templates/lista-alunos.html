@@ -18,6 +18,10 @@
                 <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                     <h2 class="mb-4">Cadastro de alunos</h2>
 
+                    <div th:if="${mensagem}" class="alert alert-success mt-3 custom-alert" role="alert">
+                        <p th:text="${mensagem}" class="custom-text"></p>
+                    </div>
+
                     <!-- Botão "Cadastrar Aluno" -->
                     <button type="button" class="btn btn-primary float-end m-3" data-bs-toggle="modal" data-bs-target="#cadastroModal">
                         Cadastrar Aluno

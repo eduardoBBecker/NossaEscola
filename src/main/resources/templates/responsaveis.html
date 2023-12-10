@@ -18,6 +18,10 @@
                 <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                     <h2 class="mb-4">Responsáveis</h2>
 
+                    <div th:if="${mensagem}" class="alert alert-success mt-3 custom-alert" role="alert">
+                        <p th:text="${mensagem}" class="custom-text"></p>
+                    </div>
+
                     <!-- Barra de Pesquisa -->
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do responsável para pesquisar..." aria-label="Pesquisar responsável" aria-describedby="button-pesquisar">
@@ -49,7 +53,7 @@
                                     <!-- Botão Editar -->
                                     <a th:href="@{'/editar-responsavel/' + ${responsavel.id}}"
                                        type="button" class="btn btn-warning btn-sm">Editar</a>
-                                       
+
                                     <!-- Botão Excluir -->
                                     <a th:href="@{'/responsaveis/deletar/' + ${responsavel.id}}"
                                        type="button" class="btn btn-danger btn-sm"
