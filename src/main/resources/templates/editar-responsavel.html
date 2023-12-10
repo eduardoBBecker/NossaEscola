@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cadastro de Responsavel</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+                    <link rel="stylesheet" th:href="@{/css/style.css}" />    
+                    </head>
+                    <body>
+
+                        <header th:insert="~{sidebar.html}"></header>
+
+                        <div class="container-fluid mt-5">
+                            <div class="row">
+                                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                                    <h2 class="mt-4 mb-4">Editando o responsavel</h2>
+                                    <form th:action="@{/salvar-edicao-responsavel}" method="post" th:object="${responsavel}" class="form" onsubmit="return validarCamposAoSalvar();">
+
+                                        <input type="hidden" th:field="${responsavel.id}" />
+
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome:</label>
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cpf" class="form-label">CPF:</label>
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="telefone" class="form-label">Telefone:</label>
+                                            <input type="text" class="form-control" id="telefone" th:field="*{telefone}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="endereco" class="form-label">Endereço:</label>
+                                            <input type="text" class="form-control" id="endereco" th:field="*{endereco}" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Salvar</button>
+
+                                        <!-- Botão Cancelar -->
+                                        <a th:href="@{/responsaveis}" class="btn btn-secondary ms-2">Cancelar</a>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+                        <script th:src="@{/js/script.js}"></script>
+                    </body>
+                    </html>
+

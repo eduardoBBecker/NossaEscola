@@ -6,6 +6,7 @@
         <title>Cadastro de Alunos</title>
 
         <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
     </head>
     <body>
 
@@ -43,7 +44,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Loop para listar os filmes -->
                             <tr th:each="aluno : ${alunos}">
                                 <td th:text="${aluno.id}"></td>
                                 <td th:text="${aluno.nome}"></td>
@@ -51,7 +51,7 @@
                                 <td th:text="${aluno.sexo}"></td>
                                 <td th:text="${aluno.nomeMae}"></td>
                                 <td th:text="${aluno.turno}"></td>
-                                <td th:text="${aluno.mensalidade}"></td>
+                                <td th:text="${#numbers.formatDecimal(aluno.mensalidade, 2, 'POINT', 2, 'COMMA')}"></td>
                                 <td>
                                     <!-- Botão Editar -->
                                     <a th:href="@{'/editar-aluno/' + ${aluno.id}}"
@@ -59,11 +59,12 @@
                                         Editar
                                     </a>
                                     <!-- Botão Excluir -->
-                                    <button type="button" class="btn btn-danger btn-sm" 
-                                            th:attr="data-id=${aluno.id}" 
-                                            onclick="excluirAluno(this)">
+                                    <a th:href="@{'/alunos/deletar/' + ${aluno.id}}"
+                                       type="button" class="btn btn-danger btn-sm" 
+                                       th:attr="data-nome=${aluno.nome}" 
+                                       onclick="return confirmarExclusaoAluno(this)">
                                         Excluir
-                                    </button>
+                                    </a>
 
                                     <!-- Botão Cadastrar Responsável -->
                                     <button type="button" class="btn btn-success btn-sm" 
@@ -74,6 +75,7 @@
                                         Cadastrar Responsável
                                     </button>
 
+                                    <!-- Botão Ver Responsável -->
                                     <button type="button" class="btn btn-info btn-sm" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#verResponsavelModal" 
@@ -81,7 +83,6 @@
                                             onclick="prepararVerResponsavel(this)">
                                         Ver Responsável
                                     </button>
-
                                 </td>                                
                             </tr>
                         </tbody>
@@ -127,7 +128,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="valorMensalidade" class="form-label">Valor da Mensalidade:</label>
-                                            <input type="text" class="form-control" id="valorMensalidade" th:field="*{mensalidade}">
+                                            <input type="text" class="form-control" id="valorMensalidade" th:field="*{mensalidade}" pattern="[0-9]+" title="Apenas números são permitidos" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Cadastrar</button>
                                     </form>
@@ -146,7 +147,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Formulário de cadastro do responsável aqui -->
-                                    <form id="responsavelForm" th:action="@{/cadastrar-responsavel}" method="post" th:object="${responsavel}" class="form" onsubmit="return validateForm(this);">
+                                    <form id="responsavelForm" th:action="@{/cadastrar-responsavel}" method="post" th:object="${responsavel}" class="form" onsubmit="return validarCamposAoSalvar();">
                                         <input type="hidden" id="alunoId" name="alunoId" />
                                         <div class="mb-3">
                                             <label for="nome" class="form-label">Nome:</label>
@@ -154,11 +155,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="cpf" class="form-label">CPF:</label>
-                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" required>
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="Digite somente números..." required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="telefone" class="form-label">Telefone:</label>
-                                            <input type="text" class="form-control" id="telefone" th:field="*{telefone}" required>
+                                            <input type="text" class="form-control" id="telefone" th:field="*{telefone}" placeholder="(99) 99999-9999" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="endereco" class="form-label">Endereço:</label>
@@ -171,8 +172,27 @@
                         </div>
                     </div>
 
-                    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+                    <!-- Modal de Ver Responsavel -->
+                    <div class="modal fade" id="verResponsavelModal" tabindex="-1" aria-labelledby="verResponsavelModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="verResponsavelModalLabel">Responsáveis Vinculados</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="responsavelList"></div>
+                                    <p id="mensagemSemResponsavel" style="display: none; color: red;">Não há responsável cadastrado para esse aluno.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
                     <script th:src="@{/js/script.js}"></script>
                     </body>
                     </html>

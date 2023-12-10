@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Sidebar Bootstrap</title>
+        <title>Sidebar</title>
 
         <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/mensalidades}">
+                                <a class="nav-link" th:href="@{/relatorio-mensalidades}">
                                     Mensalidades
                                 </a>
                             </li>
@@ -55,5 +55,18 @@
         </div>
 
         <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script>
+            const url = window.location.href;
+
+            const menuItems = document.querySelectorAll('#sidebar a');
+
+            for (let i = 0; i < menuItems.length; i++) {
+                if (url.includes(menuItems[i].href)) {
+                    menuItems[i].classList.add('active');
+                } else {
+                    menuItems[i].classList.remove('active');
+                }
+            }
+        </script>
     </body>
 </html>

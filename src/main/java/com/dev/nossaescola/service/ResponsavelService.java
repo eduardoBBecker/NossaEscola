@@ -33,4 +33,24 @@ public class ResponsavelService {
         return responsavelRepository.findByAlunoId(idAluno);
     }
 
+    public void deletarResponsavel(Integer responsavelId) {
+
+        ResponsavelEntity responsavel = getResponsavelId(responsavelId);
+        responsavelRepository.deleteById(responsavel.getId());
+    }
+
+    public ResponsavelEntity atualizarResponsavel(Integer responsavelId, ResponsavelEntity responsavelRequest) {
+
+        ResponsavelEntity responsavel = getResponsavelId(responsavelId);
+
+        responsavel.setNome(responsavelRequest.getNome());
+        responsavel.setTelefone(responsavelRequest.getTelefone());
+        responsavel.setCpf(responsavelRequest.getCpf());
+        responsavel.setEndereco(responsavelRequest.getEndereco());
+
+        responsavelRepository.save(responsavel);
+
+        return responsavel;
+    }
+
 }

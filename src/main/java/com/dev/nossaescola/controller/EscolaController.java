@@ -2,12 +2,14 @@ package com.dev.nossaescola.controller;
 
 import com.dev.nossaescola.data.AlunoEntity;
 import com.dev.nossaescola.data.ColaboradorEntity;
+import com.dev.nossaescola.data.ResponsavelEntity;
 import com.dev.nossaescola.model.Aluno;
 import com.dev.nossaescola.model.Colaborador;
 import com.dev.nossaescola.model.Responsavel;
 import com.dev.nossaescola.service.AlunoService;
 import com.dev.nossaescola.service.ColaboradorService;
 import com.dev.nossaescola.service.ResponsavelService;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class EscolaController {
@@ -99,39 +103,89 @@ public class EscolaController {
         }
     }
 
-    /*public Aluno buscarAlunoPorId(int alunoId) {
-        for (Aluno aluno : alunos) {
-            if (aluno.getId() == alunoId) {
-                return aluno;
-            }
-        }
-        return null;
+    @GetMapping("/responsaveis")
+    public String exibePaginaResponsaveis(Model model) {
+        model.addAttribute("responsavel", new Responsavel()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("responsaveis", responsavelService.listarTodosResponsaveis());
+        return "responsaveis";
     }
 
     @PostMapping("/cadastrar-responsavel")
-    public String cadastrarResponsavel(@ModelAttribute Responsavel responsavel, @RequestParam("alunoId") String alunoId, Model model) {
-        // Convertendo o alunoId para int
-        int alunoIdInt = Integer.parseInt(alunoId);
-        Aluno aluno = buscarAlunoPorId(alunoIdInt);
+    public String cadastrarResponsavel(@ModelAttribute ResponsavelEntity responsavel, @RequestParam("alunoId") int alunoId) {
+        AlunoEntity aluno = alunoService.getAlunoId(alunoId);
 
         if (aluno != null) {
             responsavel.setAluno(aluno);
+            responsavelService.criarResponsavel(responsavel);
 
-            int novoResponsavelId = responsaveis.size() + 1;
-            responsavel.setId(novoResponsavelId);
-
-            Responsavel novoResponsavel = new Responsavel();
-            novoResponsavel.setNome(responsavel.getNome());
-            novoResponsavel.setCpf(responsavel.getCpf());
-            novoResponsavel.setTelefone(responsavel.getTelefone());
-            novoResponsavel.setEndereco(responsavel.getEndereco());
-            novoResponsavel.setAluno(aluno);
-
-            responsaveis.add(novoResponsavel);
-
-            return "redirect:/alunos";
+            return "redirect:/lista-alunos";
         } else {
             return "redirect:/erro";
         }
-    }*/
+    }
+
+    @GetMapping("/responsaveis/deletar/{id}")
+    public String deletarResponsavel(@PathVariable(value = "id") Integer id) {
+        responsavelService.deletarResponsavel(id);
+        return "redirect:/responsaveis";
+    }
+
+    @PostMapping("/salvar-edicao-responsavel")
+    public String salvarEdicaoResponsavel(@ModelAttribute ResponsavelEntity responsavel) {
+        responsavelService.atualizarResponsavel(responsavel.getId(), responsavel);
+        return "redirect:/responsaveis";
+    }
+
+    @GetMapping("/editar-responsavel/{id}")
+    public String exibirFormularioEditarResponsavel(@PathVariable Integer id, Model model) {
+
+        ResponsavelEntity responsavel = responsavelService.getResponsavelId(id);
+
+        if (responsavel != null) {
+            model.addAttribute("responsavel", responsavel);
+            return "editar-responsavel";
+        } else {
+            return "redirect:/erro";
+        }
+    }
+
+    @GetMapping("/alunos/deletar/{id}")
+    public String deletarAluno(@PathVariable(value = "id") Integer id) {
+        // Busca o aluno pelo ID
+        AlunoEntity aluno = alunoService.getAlunoId(id);
+
+        if (aluno != null) {
+            // Busca os responsáveis vinculados a esse aluno
+            List<ResponsavelEntity> responsaveis = responsavelService.buscarResaponsalvelPorIdAluno(id);
+
+            // Exclui os responsáveis
+            for (ResponsavelEntity responsavel : responsaveis) {
+                responsavelService.deletarResponsavel(responsavel.getId());
+            }
+
+            // Exclui o aluno
+            alunoService.deletarAluno(id);
+
+            return "redirect:/lista-alunos";
+        } else {
+            return "redirect:/erro";
+        }
+    }
+
+    @GetMapping("/relatorio-mensalidades")
+    public String exibirRelatorioMensalidades(Model model) {
+        List<AlunoEntity> alunos = alunoService.listarTodosAlunos();
+        Double totalMensalidades = alunoService.calcularTotalMensalidades(alunos);
+
+        model.addAttribute("alunos", alunos);
+        model.addAttribute("totalMensalidades", totalMensalidades);
+
+        return "relatorio-mensalidades";
+    }
+
+    @GetMapping("/alunos/get-responsaveis/{id}")
+    @ResponseBody
+    public List<ResponsavelEntity> getResponsaveisPorAluno(@PathVariable Integer id) {
+        return responsavelService.buscarResaponsalvelPorIdAluno(id);
+    }
 }

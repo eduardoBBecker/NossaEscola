@@ -3,9 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Cadastro de Colaboradores</title>
+        <title>Cadastro de Responsaveis</title>
 
         <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
     </head>
     <body>
 
@@ -16,7 +17,7 @@
             <div class="row">
                 <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                     <h2 class="mb-4">Responsáveis</h2>
-                    
+
                     <!-- Barra de Pesquisa -->
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do responsável para pesquisar..." aria-label="Pesquisar responsável" aria-describedby="button-pesquisar">
@@ -46,19 +47,22 @@
                                 <td th:text="${responsavel.aluno.nome}"></td>
                                 <td>
                                     <!-- Botão Editar -->
-                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarModal" th:attr="data-id=${responsavel.id}">
-                                        Editar
-                                    </button>
-
+                                    <a th:href="@{'/editar-responsavel/' + ${responsavel.id}}"
+                                       type="button" class="btn btn-warning btn-sm">Editar</a>
+                                       
                                     <!-- Botão Excluir -->
-                                    <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${responsavel.id}" onclick="excluirResponsavel(this)">
-                                        Excluir
-                                    </button>
+                                    <a th:href="@{'/responsaveis/deletar/' + ${responsavel.id}}"
+                                       type="button" class="btn btn-danger btn-sm"
+                                       th:attr="data-nome=${responsavel.nome}" 
+                                       onclick="return confirmarExclusaoResponsavel(this)">Excluir</a>
                                 </td>       
                             </tr>
                         </tbody>
                     </table>
 
+                </div>
+            </div>
+        </div>
 
         <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
