@@ -35,6 +35,7 @@ public class AlunoService {
         aluno.setSexo(alunoRequest.getSexo());
         aluno.setNomeMae(alunoRequest.getNomeMae());
         aluno.setTurno(alunoRequest.getTurno());
+        aluno.setConvenio(alunoRequest.getConvenio());
         aluno.setMensalidade(alunoRequest.getMensalidade());
 
         alunoRepository.save(aluno);

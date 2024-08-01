@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Relatório de Mensalidades</title>
-        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-        <link rel="stylesheet" th:href="@{/css/style.css}" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Relatório de Mensalidades</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
 
-    </head>
-    <body>
+    <header th:insert="~{sidebar.html}"></header>
 
-        <header th:insert="~{sidebar.html}"></header>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                <h2 class="mb-4">Relatório de Mensalidades</h2>
 
-        <div class="container-fluid mt-5">
-            <div class="row">
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
-                    <h2 class="mb-4">Relatório de Mensalidades</h2>
-
-                    <!-- Tabela de Mensalidades -->
-                    <table class="table">
-                        <thead>
+                <!-- Tabela de Mensalidades -->
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-light">
                             <tr>
                                 <th>Aluno</th>
                                 <th>Valor Mensalidade</th>
@@ -28,21 +28,24 @@
                         <tbody>
                             <tr th:each="aluno : ${alunos}">
                                 <td th:text="${aluno.nome}"></td>
-                                <td th:text="${#numbers.formatDecimal(aluno.mensalidade, 2, 'POINT', 2, 'COMMA')}"></td>
+                                <td th:text="'R$ ' + ${#numbers.formatDecimal(aluno.mensalidade, 2, 'POINT', 2, 'COMMA')}"></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
 
-                    <div class="alert alert-success">
-                        <strong>Total:</strong> R$ <span th:text="${#numbers.formatDecimal(totalMensalidades, 2, 'POINT', 2, 'COMMA')}"></span>
-                    </div>
-                </main>
-            </div>
+                <!-- Total Mensalidades -->
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <strong class="me-2">Total:</strong>
+                    R$ <span th:text="${#numbers.formatDecimal(totalMensalidades, 2, 'POINT', 2, 'COMMA')}"></span>
+                </div>
+            </main>
         </div>
+    </div>
 
-        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script th:src="@{/js/script.js}"></script>
-    </body>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
 </html>
-

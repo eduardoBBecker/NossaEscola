@@ -3,39 +3,58 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Cadastro de Responsaveis</title>
-
+        <title>Cadastro de Responsáveis</title>
         <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/css/style.css}" />
+        <style>
+            .custom-alert {
+                display: flex;
+                align-items: center;
+            }
+            .custom-text {
+                flex-grow: 1;
+            }
+            .table thead th {
+                background-color: #f8f9fa;
+            }
+            .btn-custom {
+                margin: 0 5px;
+            }
+            .search-bar {
+                margin-bottom: 1.5rem;
+            }
+        </style>
     </head>
     <body>
-
         <header th:insert="~{sidebar.html}"></header>
-
-        <!-- Conteúdo -->
         <div class="container-fluid mt-5">
             <div class="row">
                 <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
-                    <h2 class="mb-4">Responsáveis</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="mb-0">Responsáveis</h2>
+                    </div>
 
-                    <div th:if="${mensagem}" class="alert alert-success mt-3 custom-alert" role="alert">
-                        <p th:text="${mensagem}" class="custom-text"></p>
+                    <!-- Alerta de Sucesso -->
+                    <div th:if="${mensagem}" class="custom-alert alert-dismissible fade show" role="alert">
+                        <span th:text="${mensagem}" class="alert-message"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
                     </div>
 
                     <!-- Barra de Pesquisa -->
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3 search-bar">
                         <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do responsável para pesquisar..." aria-label="Pesquisar responsável" aria-describedby="button-pesquisar">
                         <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
                     </div>
 
-                    <!-- Lista de Alunos -->
-                    <table class="table table-striped">
+                    <!-- Lista de Responsáveis -->
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nome Completo</th>
                                 <th>Telefone</th>
                                 <th>CPF</th>
+                                <th>E-mail</th>
                                 <th>Endereço</th>
                                 <th>Aluno</th>
                                 <th>Ações</th>
@@ -47,29 +66,34 @@
                                 <td th:text="${responsavel.nome}"></td>
                                 <td th:text="${responsavel.telefone}"></td>
                                 <td th:text="${responsavel.cpf}"></td>
+                                <td th:text="${responsavel.email != null && !responsavel.email.isEmpty() ? responsavel.email : 'Não informado'}"></td>
                                 <td th:text="${responsavel.endereco}"></td>
                                 <td th:text="${responsavel.aluno.nome}"></td>
                                 <td>
                                     <!-- Botão Editar -->
-                                    <a th:href="@{'/editar-responsavel/' + ${responsavel.id}}"
-                                       type="button" class="btn btn-warning btn-sm">Editar</a>
-
+                                    <a th:href="@{'/editar-responsavel/' + ${responsavel.id}}" class="btn btn-warning btn-sm btn-custom">Editar</a>
                                     <!-- Botão Excluir -->
-                                    <a th:href="@{'/responsaveis/deletar/' + ${responsavel.id}}"
-                                       type="button" class="btn btn-danger btn-sm"
-                                       th:attr="data-nome=${responsavel.nome}" 
-                                       onclick="return confirmarExclusaoResponsavel(this)">Excluir</a>
-                                </td>       
+                                    <a th:href="@{'/responsaveis/deletar/' + ${responsavel.id}}" class="btn btn-danger btn-sm btn-custom" th:attr="data-nome=${responsavel.nome}" onclick="return confirmarExclusaoResponsavel(this)">Excluir</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
-
-        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
         <script th:src="@{/js/script.js}"></script>
+        <script>
+            $(document).ready(function() {
+                if ($('.custom-alert').length) {
+                    setTimeout(function() {
+                        $('.custom-alert').alert('close');
+                    }, 5000); // Fecha o alerta após 5 segundos
+                }
+            });
+        </script>
     </body>
 </html>

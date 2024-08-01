@@ -15,6 +15,7 @@
         <div class="row">
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                 <h2 class="mt-4 mb-4">Editando o colaborador</h2>
+                
                 <form th:action="@{/salvar-edicao}" method="post" th:object="${colaborador}" class="form" onsubmit="return validarCamposAoSalvar();">
 
                     <input type="hidden" th:field="${colaborador.id}" />
@@ -43,18 +44,19 @@
                     </div>
                     <div class="mb-3">
                         <label for="salario" class="form-label">Salario</label>
-                        <input type="text" class="form-control" id="salario" th:field="*{salario}" required>
+                        <input type="text" class="form-control" id="salario" th:field="*{salario}" th:value="${#numbers.formatDecimal(colaborador.salario, 2, 'POINT', 2, 'COMMA')}" required>
                     </div>
                     <button type="submit" class="btn btn-success">Salvar</button>
-                    
-                     <!-- Botão Cancelar -->
                     <a th:href="@{/colaboradores}" class="btn btn-secondary ms-2">Cancelar</a>
 
                 </form>
             </div>
         </div>
     </div>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-    <script th:src="@{/js/script.js}"></script>
+        <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+        <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

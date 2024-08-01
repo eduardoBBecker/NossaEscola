@@ -68,7 +68,5 @@ public class Colaborador {
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-    
-    
 
 }

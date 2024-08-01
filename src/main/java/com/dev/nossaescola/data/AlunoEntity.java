@@ -1,6 +1,5 @@
 package com.dev.nossaescola.data;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +20,6 @@ public class AlunoEntity {
     private String sexo;
     private String nomeMae;
     private String turno;
-
-    @Column(name = "mensalidade", columnDefinition = "NUMERIC")
     private Double mensalidade;
+    private String convenio;
 }

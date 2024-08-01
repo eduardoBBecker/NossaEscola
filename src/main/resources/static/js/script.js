@@ -55,8 +55,8 @@ function confirmarExclusaoResponsavel(button) {
 }
 
 function validarCamposAoSalvar() {
-    var cpf = document.getElementById('cpf').value;
-    var telefone = document.getElementById('telefone').value;
+    var cpf = document.getElementById('cpf').value.replace(/[^\d]/g, '');
+    var telefone = document.getElementById('telefone').value.replace(/[^\d]/g, '');
 
     if (!/^\d{11}$/.test(cpf)) {
         alert('CPF preenchido incorretamente. Por favor, informe os 11 dígitos numéricos.');
@@ -112,9 +112,78 @@ function prepararVerResponsavel(button) {
     });
 }
 
-$(document).ready(function(){
-    // Adicione este script para ocultar a mensagem após 4 segundos
-    setTimeout(function(){
-        $('.alert-success').fadeOut('slow');
-    }, 4000);
+$(document).ready(function () {
+    $('#cpf').mask('000.000.000-00');
+    $('#telefone').mask('(00) 00000-0000');
+});
+
+// Inicializa a máscara de moeda no campo de salário e valor salario
+document.addEventListener("DOMContentLoaded", function () {
+    var salarioInput = document.getElementById('salario');
+    var salarioValue = salarioInput.value;
+
+    // Formata o valor manualmente se necessário
+    if (salarioValue) {
+        salarioInput.value = parseFloat(salarioValue).toFixed(2).replace('.', ',');
+    }
+
+    new Cleave('#salario', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand', // Ponto como separador de milhar
+        numeralDecimalMark: ',', // Vírgula como separador decimal
+        delimiter: '.', // Ponto como delimitador
+        numeralPositiveOnly: true
+    });
+});
+
+// Inicializa a máscara de moeda no campo de salário e valor mensalidade
+document.addEventListener("DOMContentLoaded", function () {
+    var mensalidadenput = document.getElementById('mensalidade');
+    var mensalidadeValue = mensalidadenput.value;
+
+    // Formata o valor manualmente se necessário
+    if (mensalidadeValue) {
+        mensalidadenput.value = parseFloat(mensalidadeValue).toFixed(2).replace('.', ',');
+    }
+
+    new Cleave('#mensalidade', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand', // Ponto como separador de milhar
+        numeralDecimalMark: ',', // Vírgula como separador decimal
+        delimiter: '.', // Ponto como delimitador
+        numeralPositiveOnly: true
+    });
+});
+
+$(document).ready(function () {
+    // Verifica se há uma mensagem de sucesso no sessionStorage
+    if (sessionStorage.getItem('cadastroSucesso') === 'true') {
+        $('#cadastroSucessoModal').modal('show');
+        sessionStorage.removeItem('cadastroSucesso'); // Remove a mensagem de sucesso após exibir a modal
+    }
+});
+
+// No script onde você redireciona após o cadastro
+function redirectToListaAlunos() {
+    sessionStorage.setItem('cadastroSucesso', 'true');
+    window.location.href = '/lista-alunos'; // Redireciona para a página onde a modal deve aparecer
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const emailInput = document.getElementById("email");
+    const form = document.getElementById("responsavelForm");
+
+    form.addEventListener("submit", function (event) {
+        if (!validateEmail(emailInput.value)) {
+            event.preventDefault();
+            emailInput.classList.add("is-invalid");
+        } else {
+            emailInput.classList.remove("is-invalid");
+        }
+    });
+
+    function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return re.test(email);
+    }
 });

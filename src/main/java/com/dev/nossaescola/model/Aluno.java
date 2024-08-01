@@ -9,11 +9,12 @@ public class Aluno {
     private String nomeMae;
     private String turno;
     private Double mensalidade ;
+    private String convenio;
 
     public Aluno() {
     }
 
-    public Aluno(int id, String nome, String dataNasc, String sexo, String nomeMae, String turno, Double mensalidade) {
+    public Aluno(int id, String nome, String dataNasc, String sexo, String nomeMae, String turno, Double mensalidade, String convenio) {
         this.id = id;
         this.nome = nome;
         this.dataNasc = dataNasc;
@@ -21,6 +22,7 @@ public class Aluno {
         this.nomeMae = nomeMae;
         this.turno = turno;
         this.mensalidade = mensalidade;
+        this.convenio = convenio;
     }
 
     public int getId() {
@@ -77,6 +79,14 @@ public class Aluno {
 
     public void setMensalidade(Double mensalidade) {
         this.mensalidade = mensalidade;
+    }
+
+    public String getConvenio() {
+        return convenio;
+    }
+
+    public void setConvenio(String convenio) {
+        this.convenio = convenio;
     }
 
     

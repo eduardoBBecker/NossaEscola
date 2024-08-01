@@ -9,6 +9,7 @@ import com.dev.nossaescola.model.Responsavel;
 import com.dev.nossaescola.service.AlunoService;
 import com.dev.nossaescola.service.ColaboradorService;
 import com.dev.nossaescola.service.ResponsavelService;
+import java.beans.PropertyEditorSupport;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,9 +36,41 @@ public class EscolaController {
     @Autowired
     ResponsavelService responsavelService;
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Double.class, "salario", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null);
+                } else {
+                    String salarioFormatado = text.replace(".", "").replace(",", ".");
+                    setValue(Double.valueOf(salarioFormatado));
+                }
+            }
+        });
+
+        binder.registerCustomEditor(Double.class, "mensalidade", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null);
+                } else {
+                    String mensalidadeFormatado = text.replace(".", "").replace(",", ".");
+                    setValue(Double.valueOf(mensalidadeFormatado));
+                }
+            }
+        });
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/lista-alunos")
     public String exibePaginaAlunos(Model model) {
-        model.addAttribute("aluno", new Aluno()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("aluno", new Aluno());
         model.addAttribute("alunos", alunoService.listarTodosAlunos());
         model.addAttribute("responsavel", new Responsavel());
         return "lista-alunos";
@@ -43,15 +78,15 @@ public class EscolaController {
 
     @GetMapping("/colaboradores")
     public String exibePaginaColaboradores(Model model) {
-        model.addAttribute("colaborador", new Colaborador()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("colaborador", new Colaborador());
         model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores());
         return "colaboradores";
     }
 
     @PostMapping("/cadastrar-aluno")
-    public String cadastrarAluno(@ModelAttribute AlunoEntity aluno, Model model, RedirectAttributes redirectAttributes) {
+    public String cadastrarAluno(@ModelAttribute AlunoEntity aluno, RedirectAttributes redirectAttributes) {
         alunoService.criarAluno(aluno);
-        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
+        redirectAttributes.addFlashAttribute("mensagem", "Aluno cadastrado com sucesso!");
         return "redirect:/lista-alunos";
     }
 
@@ -71,14 +106,19 @@ public class EscolaController {
     @PostMapping("/salvar-edicao-aluno")
     public String salvarEdicaoAluno(@ModelAttribute AlunoEntity aluno, RedirectAttributes redirectAttributes) {
         alunoService.atualizarAluno(aluno.getId(), aluno);
-        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso");
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/lista-alunos";
     }
 
     @PostMapping("/cadastrar-colaborador")
     public String cadastrarColaborador(@ModelAttribute ColaboradorEntity colaborador, RedirectAttributes redirectAttributes) {
+        // Remove caracteres não numéricos do CPF e do telefone
+        colaborador.setCpf(colaborador.getCpf().replaceAll("[^\\d]", ""));
+        colaborador.setTelefone(colaborador.getTelefone().replaceAll("[^\\d]", ""));
+
+        // Salva o colaborador no banco de dados
         colaboradorService.criarColaborador(colaborador);
-        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso");
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/colaboradores";
     }
 
@@ -90,6 +130,12 @@ public class EscolaController {
 
     @PostMapping("/salvar-edicao")
     public String salvarEdicaoColaborador(@ModelAttribute ColaboradorEntity colaborador, RedirectAttributes redirectAttributes) {
+
+        // Remove caracteres não numéricos do CPF e do telefone
+        colaborador.setCpf(colaborador.getCpf().replaceAll("[^\\d]", ""));
+        colaborador.setTelefone(colaborador.getTelefone().replaceAll("[^\\d]", ""));
+
+        // Salva as alterações no banco de dados
         colaboradorService.atualizarColaborador(colaborador.getId(), colaborador);
         redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/colaboradores";
@@ -110,7 +156,7 @@ public class EscolaController {
 
     @GetMapping("/responsaveis")
     public String exibePaginaResponsaveis(Model model) {
-        model.addAttribute("responsavel", new Responsavel()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("responsavel", new Responsavel());
         model.addAttribute("responsaveis", responsavelService.listarTodosResponsaveis());
         return "responsaveis";
     }
@@ -121,8 +167,10 @@ public class EscolaController {
 
         if (aluno != null) {
             responsavel.setAluno(aluno);
+            responsavel.setCpf(responsavel.getCpf().replaceAll("[^\\d]", ""));
+            responsavel.setTelefone(responsavel.getTelefone().replaceAll("[^\\d]", ""));
             responsavelService.criarResponsavel(responsavel);
-            redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
+            redirectAttributes.addFlashAttribute("mensagem", "Responsável cadastrado com sucesso!");
             return "redirect:/lista-alunos";
         } else {
             return "redirect:/erro";
@@ -137,6 +185,8 @@ public class EscolaController {
 
     @PostMapping("/salvar-edicao-responsavel")
     public String salvarEdicaoResponsavel(@ModelAttribute ResponsavelEntity responsavel, RedirectAttributes redirectAttributes) {
+        responsavel.setCpf(responsavel.getCpf().replaceAll("[^\\d]", ""));
+        responsavel.setTelefone(responsavel.getTelefone().replaceAll("[^\\d]", ""));
         responsavelService.atualizarResponsavel(responsavel.getId(), responsavel);
         redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
         return "redirect:/responsaveis";

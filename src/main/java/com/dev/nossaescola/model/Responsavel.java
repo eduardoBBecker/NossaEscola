@@ -7,17 +7,19 @@ public class Responsavel {
     private String telefone;
     private String cpf;
     private String endereco;
+    private String email;
     private Aluno aluno;
 
     public Responsavel() {
     }
 
-    public Responsavel(int id, String nome, String telefone, String cpf, String endereco, Aluno aluno) {
+    public Responsavel(int id, String nome, String telefone, String cpf, String endereco, String email, Aluno aluno) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.cpf = cpf;
         this.endereco = endereco;
+        this.email = email;
         this.aluno = aluno;
     }
 
@@ -61,6 +63,14 @@ public class Responsavel {
         this.endereco = endereco;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public Aluno getAluno() {
         return aluno;
     }

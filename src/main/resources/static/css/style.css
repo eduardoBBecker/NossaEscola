@@ -4,11 +4,62 @@ h2 {
 }
 
 .custom-alert {
-    width: 30%; /* ou qualquer largura desejada */
-    margin: 0 auto; /* isso centraliza horizontalmente */
-    text-align: center; /* isso centraliza o texto dentro da div */
+    border: 1px solid #28a745;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.custom-alert .alert-message {
+    flex-grow: 1;
+}
+.custom-alert .btn-close {
+    background: none;
+    border: none;
+    color: #155724;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
-.custom-text {
-    /* Adicione estilos adicionais para o texto, se desejar */
+body {
+    background-color: #f8f9fa;
+}
+
+.header-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #343a40;
+}
+
+.btn-custom {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header-custom {
+    background-color: #007bff;
+    color: white;
+}
+
+.table-custom th, .table-custom td {
+    vertical-align: middle;
+}
+
+.table-custom th {
+    background-color: #f1f1f1;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.form-control:invalid {
+    border-color: #dc3545;
 }
