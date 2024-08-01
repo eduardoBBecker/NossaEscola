@@ -33,9 +33,14 @@ public class EscolaController {
     @Autowired
     ResponsavelService responsavelService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/lista-alunos")
     public String exibePaginaAlunos(Model model) {
-        model.addAttribute("aluno", new Aluno()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("aluno", new Aluno());
         model.addAttribute("alunos", alunoService.listarTodosAlunos());
         model.addAttribute("responsavel", new Responsavel());
         return "lista-alunos";
@@ -43,7 +48,7 @@ public class EscolaController {
 
     @GetMapping("/colaboradores")
     public String exibePaginaColaboradores(Model model) {
-        model.addAttribute("colaborador", new Colaborador()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("colaborador", new Colaborador());
         model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores());
         return "colaboradores";
     }
@@ -110,7 +115,7 @@ public class EscolaController {
 
     @GetMapping("/responsaveis")
     public String exibePaginaResponsaveis(Model model) {
-        model.addAttribute("responsavel", new Responsavel()); // Adiciona o objeto Filme ao modelo
+        model.addAttribute("responsavel", new Responsavel());
         model.addAttribute("responsaveis", responsavelService.listarTodosResponsaveis());
         return "responsaveis";
     }
