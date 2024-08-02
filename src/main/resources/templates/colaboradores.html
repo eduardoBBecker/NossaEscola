@@ -32,7 +32,10 @@
                 <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2 class="mb-0">Cadastro de Colaboradores</h2>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroModal">Cadastrar Colaborador</button>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroCargoModal">Novo Cargo</button>
+                            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#cadastroModal">Cadastrar Colaborador</button>
+                        </div>
                     </div>
 
                     <!-- Alerta de Sucesso -->
@@ -129,19 +132,27 @@
                         </div>
                     </div>
 
-                    <!-- Modal de Sucesso -->
-                    <div class="modal fade" id="cadastroSucessoModal" tabindex="-1" aria-labelledby="cadastroSucessoModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
+                    <!-- Modal Novo Cargo -->
+                    <div class="modal fade" id="cadastroCargoModal" tabindex="-1" aria-labelledby="cadastroCargoModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
-                                <div class="modal-header bg-success text-white">
-                                    <h5 class="modal-title" id="cadastroSucessoModalLabel">Cadastro Realizado</h5>
+                                <div class="modal-header bg-warning text-white">
+                                    <h5 class="modal-title" id="cadastroCargoModalLabel">Novo Cargo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>O cadastro foi realizado com sucesso!</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+                                    <form th:action="@{/cadastrar-cargo}" method="post" th:object="${cargo}" class="form">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="cargo" class="form-label">Nome do cargo:</label>
+                                                <input type="text" class="form-control" id="cargo" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -157,13 +168,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
         <script th:src="@{/js/script.js}"></script>
         <script>
-            $(document).ready(function() {
-                if ($('.custom-alert').length) {
-                    setTimeout(function() {
-                        $('.custom-alert').alert('close');
-                    }, 5000); // Fecha o alerta após 5 segundos
-                }
-            });
+                                        $(document).ready(function () {
+                                            if ($('.custom-alert').length) {
+                                                setTimeout(function () {
+                                                    $('.custom-alert').alert('close');
+                                                }, 5000); // Fecha o alerta após 5 segundos
+                                            }
+                                        });
         </script>
 
     </body>

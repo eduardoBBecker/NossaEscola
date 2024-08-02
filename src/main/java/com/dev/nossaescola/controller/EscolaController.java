@@ -1,14 +1,17 @@
 package com.dev.nossaescola.controller;
 
 import com.dev.nossaescola.data.AlunoEntity;
+import com.dev.nossaescola.data.CargoEntity;
 import com.dev.nossaescola.data.ColaboradorEntity;
 import com.dev.nossaescola.data.ResponsavelEntity;
 import com.dev.nossaescola.model.Aluno;
+import com.dev.nossaescola.model.Cargo;
 import com.dev.nossaescola.model.Colaborador;
 import com.dev.nossaescola.model.Responsavel;
 import com.dev.nossaescola.service.AlunoService;
 import com.dev.nossaescola.service.ColaboradorService;
 import com.dev.nossaescola.service.ResponsavelService;
+import com.dev.nossaescola.service.CargoService;
 import java.beans.PropertyEditorSupport;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -35,6 +38,9 @@ public class EscolaController {
 
     @Autowired
     ResponsavelService responsavelService;
+    
+    @Autowired
+    CargoService cargoService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -78,6 +84,7 @@ public class EscolaController {
 
     @GetMapping("/colaboradores")
     public String exibePaginaColaboradores(Model model) {
+        model.addAttribute("cargo", new Cargo());
         model.addAttribute("colaborador", new Colaborador());
         model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores());
         return "colaboradores";
@@ -244,4 +251,12 @@ public class EscolaController {
     public List<ResponsavelEntity> getResponsaveisPorAluno(@PathVariable Integer id) {
         return responsavelService.buscarResaponsalvelPorIdAluno(id);
     }
+
+    @PostMapping("/cadastrar-cargo")
+    public String cadastrarCargo(@ModelAttribute CargoEntity cargo, RedirectAttributes redirectAttributes) {
+        cargoService.criarCargo(cargo);
+        redirectAttributes.addFlashAttribute("mensagem", "Cargo criado com sucesso!");
+        return "redirect:/colaboradores";
+    }
+
 }
