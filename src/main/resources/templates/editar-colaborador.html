@@ -35,11 +35,11 @@
                     <div class="mb-3">
                         <label for="cargo" class="form-label">Cargo:</label>
                         <select class="form-select" id="cargo" th:field="*{cargo}">
-                            <option value="Pedagogo">Pedagogo(a)</option>
-                            <option value="Professor">Professor(a)</option>
-                            <option value="Serviços Gerais">Serviços Gerais</option>
-                            <option value="Cozinheiro">Cozinheiro(a)</option>
-                            <option value="Seguranca">Segurança</option>
+                            <option value="" disabled="disabled" selected="selected">Selecione o cargo</option>
+                            <option th:each="cargo : ${cargos}"
+                                    th:value="${cargo.id}"
+                                th:text="${cargo.cargo}">
+                            </option>
                         </select>
                     </div>
                     <div class="mb-3">

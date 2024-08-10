@@ -6,13 +6,13 @@ public class Colaborador {
     private String nome;
     private String telefone;
     private String cpf;
-    private String cargo;
+    private Cargo cargo;
     private Double salario;
 
     public Colaborador() {
     }
 
-    public Colaborador(int id, String nome, String telefone, String cpf, String cargo, Double salario) {
+    public Colaborador(int id, String nome, String telefone, String cpf, Cargo cargo, Double salario) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
@@ -53,11 +53,11 @@ public class Colaborador {
         this.cpf = cpf;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 
@@ -68,5 +68,5 @@ public class Colaborador {
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-
+    
 }

@@ -69,7 +69,7 @@
                                 <td th:text="${colaborador.nome}"></td>
                                 <td th:text="${colaborador.telefone}"></td>
                                 <td th:text="${colaborador.cpf}"></td>
-                                <td th:text="${colaborador.cargo}"></td>
+                                <td th:text="${colaborador.cargo.cargo}"></td>
                                 <td th:text="'R$ ' + ${#numbers.formatDecimal(colaborador.salario, 2, 'POINT', 2, 'COMMA')}"></td>
                                 <td class="d-flex justify-content-center">
                                     <a th:href="@{'/editar-colaborador/' + ${colaborador.id}}" class="btn btn-warning btn-sm btn-custom">Editar</a>
@@ -108,11 +108,7 @@
                                                 <label for="cargo" class="form-label">Cargo:</label>
                                                 <select class="form-select" id="cargo" th:field="*{cargo}" required>
                                                     <option value="" selected disabled>Selecione o cargo</option>
-                                                    <option value="Pedagoga">Pedagoga(o)</option>
-                                                    <option value="Professor">Professor</option>
-                                                    <option value="Serviços Gerais">Serviços Gerais</option>
-                                                    <option value="Cozinheira">Cozinheira(o)</option>
-                                                    <option value="Segurança">Segurança</option>
+                                                    <option th:each="cargo : ${cargos}" th:value="${cargo.id}" th:text="${cargo.cargo}"></option>
                                                 </select>
                                             </div>
                                         </div>

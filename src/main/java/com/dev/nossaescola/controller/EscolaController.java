@@ -38,7 +38,7 @@ public class EscolaController {
 
     @Autowired
     ResponsavelService responsavelService;
-    
+
     @Autowired
     CargoService cargoService;
 
@@ -87,6 +87,7 @@ public class EscolaController {
         model.addAttribute("cargo", new Cargo());
         model.addAttribute("colaborador", new Colaborador());
         model.addAttribute("colaboradores", colaboradorService.listarTodosColaboradores());
+        model.addAttribute("cargos", cargoService.listarTodosCargos());
         return "colaboradores";
     }
 
@@ -123,6 +124,9 @@ public class EscolaController {
         colaborador.setCpf(colaborador.getCpf().replaceAll("[^\\d]", ""));
         colaborador.setTelefone(colaborador.getTelefone().replaceAll("[^\\d]", ""));
 
+        CargoEntity cargoEntity = cargoService.findById(colaborador.getCargo().getId());
+        colaborador.setCargo(cargoEntity);
+
         // Salva o colaborador no banco de dados
         colaboradorService.criarColaborador(colaborador);
         redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
@@ -137,7 +141,6 @@ public class EscolaController {
 
     @PostMapping("/salvar-edicao")
     public String salvarEdicaoColaborador(@ModelAttribute ColaboradorEntity colaborador, RedirectAttributes redirectAttributes) {
-
         // Remove caracteres não numéricos do CPF e do telefone
         colaborador.setCpf(colaborador.getCpf().replaceAll("[^\\d]", ""));
         colaborador.setTelefone(colaborador.getTelefone().replaceAll("[^\\d]", ""));
@@ -152,6 +155,7 @@ public class EscolaController {
     public String exibirFormularioEditarColaborador(@PathVariable Integer id, Model model) {
 
         ColaboradorEntity colaborador = colaboradorService.getColaboradorId(id);
+        model.addAttribute("cargos", cargoService.listarTodosCargos());
 
         if (colaborador != null) {
             model.addAttribute("colaborador", colaborador);
