@@ -1,18 +1,21 @@
 package com.dev.nossaescola.model;
 
 
-public class User {
+public class Usuario {
     
     private int id;
     private String username;
-    private String password;
+    private String senha;
 
-    public User(int id, String username, String password) {
+    public Usuario(int id, String username, String senha) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.senha = senha;
     }
 
+    public Usuario() {
+    }
+    
     public int getId() {
         return id;
     }
@@ -29,12 +32,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
 }

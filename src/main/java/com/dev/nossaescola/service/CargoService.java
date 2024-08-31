@@ -24,8 +24,19 @@ public class CargoService {
         return cargos;
     }
 
-    public CargoEntity findById(Integer id) {
-        return cargoRepository.findById(id).orElseThrow(() -> new RuntimeException("Cargo não encontrado!"));
+    public CargoEntity findById(Integer cargoId) {
+        return cargoRepository.findById(cargoId).orElse(null);
+    }
+
+    public CargoEntity atualizarCargo (Integer cargoId, CargoEntity cargoRequest) {
+
+        CargoEntity cargo = findById(cargoId);
+        
+        cargo.setCargo(cargoRequest.getCargo());
+
+        cargoRepository.save(cargo);
+
+        return cargo;
     }
 
 }

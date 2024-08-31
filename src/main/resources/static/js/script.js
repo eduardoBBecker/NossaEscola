@@ -90,12 +90,15 @@ function prepararVerResponsavel(button) {
                 for (let i = 0; i < data.length; i++) {
                     const responsavel = data[i];
                     const responsavelElement = `
-                        <div class="card mb-3">
+                        <div class="card mb-3 shadow-sm border-0">
                             <div class="card-body">
-                                <h5 class="card-title">${responsavel.nome}</h5>
-                                <p class="card-text">CPF: ${responsavel.cpf}</p>
-                                <p class="card-text">Telefone: ${responsavel.telefone}</p>
-                                <p class="card-text">Endereço: ${responsavel.endereco}</p>
+                                <h5 class="card-title text-primary fw-bold">${responsavel.nome}</h5>
+                                <p class="card-text mb-1"><strong>CPF:</strong> ${responsavel.cpf}</p>
+                                <p class="card-text mb-1"><strong>Telefone:</strong> ${responsavel.telefone}</p>
+                                <p class="card-text mb-1"><strong>Endereço:</strong> ${responsavel.endereco}</p>
+                            </div>
+                            <div class="card-footer bg-white border-0 text-end">
+                                <button class="btn btn-sm btn-outline-primary">Ver mais</button>
                             </div>
                         </div>
                     `;
@@ -111,6 +114,7 @@ function prepararVerResponsavel(button) {
         }
     });
 }
+
 
 $(document).ready(function () {
     $('#cpf').mask('000.000.000-00');

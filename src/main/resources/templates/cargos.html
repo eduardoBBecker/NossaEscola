@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Lista de Cargos</title>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+    </head>
+    <body>
+        <header th:insert="~{sidebar.html}"></header>
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="mb-0 text-primary">LISTA DE CARGOS</h2>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastroCargoModal">+ Novo Cargo</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th>Nome</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="cargo : ${cargos}">
+                                    <td class="text-center" th:text="${cargo.id}"></td>
+                                    <td th:text="${cargo.cargo}"></td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a th:href="@{'/editar-cargo/' + ${cargo.id}}" class="btn btn-warning btn-sm btn-custom">Editar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal Novo Cargo -->
+                    <div class="modal fade" id="cadastroCargoModal" tabindex="-1" aria-labelledby="cadastroCargoModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-warning text-white">
+                                    <h5 class="modal-title" id="cadastroCargoModalLabel">Novo Cargo</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/cadastrar-cargo}" method="post" th:object="${cargo}" class="form">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="cargo" class="form-label">Nome do cargo:</label>
+                                                <input type="text" class="form-control" id="cargo" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+        <script th:src="@{/js/script.js}"></script>
+    </body>
+</html>

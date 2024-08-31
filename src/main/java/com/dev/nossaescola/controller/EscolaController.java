@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Controller
 public class EscolaController {
@@ -67,11 +68,6 @@ public class EscolaController {
                 }
             }
         });
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
     }
 
     @GetMapping("/lista-alunos")
@@ -257,10 +253,41 @@ public class EscolaController {
     }
 
     @PostMapping("/cadastrar-cargo")
-    public String cadastrarCargo(@ModelAttribute CargoEntity cargo, RedirectAttributes redirectAttributes) {
+    public String cadastrarCargo(@ModelAttribute CargoEntity cargo,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(value = "referer", required = false) String referer) {
         cargoService.criarCargo(cargo);
         redirectAttributes.addFlashAttribute("mensagem", "Cargo criado com sucesso!");
-        return "redirect:/colaboradores";
+
+        // Verifica se o referer está presente, se não, redireciona para uma página padrão
+        return (referer != null) ? "redirect:" + referer : "redirect:/colaboradores";
     }
 
+    @GetMapping("/cargos")
+    public String exibePaginaCargos(Model model) {
+        model.addAttribute("cargo", new Cargo());
+        model.addAttribute("cargos", cargoService.listarTodosCargos());
+        return "cargos";
+    }
+
+    @PostMapping("/salvar-edicao-cargo")
+    public String salvarEdicaoColaborador(@ModelAttribute CargoEntity cargo, RedirectAttributes redirectAttributes) {
+        // Salva as alterações no banco de dados
+        cargoService.atualizarCargo(cargo.getId(), cargo);
+        redirectAttributes.addFlashAttribute("mensagem", "Cadastro salvo com sucesso!");
+        return "redirect:/cargos";
+    }
+
+    @GetMapping("/editar-cargo/{id}")
+    public String exibirFormularioEditarCargo(@PathVariable Integer id, Model model) {
+
+        CargoEntity cargo = cargoService.findById(id);
+
+        if (cargo != null) {
+            model.addAttribute("cargo", cargo);
+            return "editar-cargo";
+        } else {
+            return "redirect:/erro";
+        }
+    }
 }

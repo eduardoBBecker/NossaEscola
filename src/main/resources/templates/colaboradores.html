@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Cadastro de Colaboradores</title>
-        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-        <link rel="stylesheet" th:href="@{/css/style.css}" />
-        <style>
-            .custom-alert {
-                display: flex;
-                align-items: center;
-            }
-            .custom-text {
-                flex-grow: 1;
-            }
-            .table thead th {
-                background-color: #f8f9fa;
-            }
-            .btn-custom {
-                margin: 0 5px;
-            }
-            .search-bar {
-                margin-bottom: 1.5rem;
-            }
-        </style>
-    </head>
-    <body>
-        <header th:insert="~{sidebar.html}"></header>
-        <div class="container-fluid mt-5">
-            <div class="row">
-                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="mb-0">Cadastro de Colaboradores</h2>
-                        <div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastroCargoModal">Novo Cargo</button>
-                            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#cadastroModal">Cadastrar Colaborador</button>
-                        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro de Colaboradores</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <style>
+        .custom-alert {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-bar {
+            margin-bottom: 1.5rem;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .btn-custom {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <header th:insert="~{sidebar.html}"></header>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0 text-primary">COLABORADORES</h2>
+                    <div>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastroCargoModal">+ Novo Cargo</button>
+                        <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#cadastroModal">+ Novo Colaborador</button>
                     </div>
+                </div>
 
-                    <!-- Alerta de Sucesso -->
-                    <div th:if="${mensagem}" class="custom-alert alert-dismissible fade show" role="alert">
-                        <span th:text="${mensagem}" class="alert-message"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
-                    </div>
+                <!-- Alerta de Sucesso -->
+                <div th:if="${mensagem}" class="custom-alert alert alert-success alert-dismissible fade show" role="alert">
+                    <span th:text="${mensagem}" class="custom-text"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
-                    <!-- Barra de Pesquisa -->
-                    <div class="input-group mb-3 search-bar">
-                        <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do colaborador para pesquisar..." aria-label="Pesquisar colaborador" aria-describedby="button-pesquisar">
-                        <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
-                    </div>
+                <!-- Barra de Pesquisa -->
+                <div class="input-group mb-3 search-bar">
+                    <input type="text" class="form-control" id="inputPesquisa" placeholder="Digite o nome do colaborador para pesquisar..." aria-label="Pesquisar colaborador" aria-describedby="button-pesquisar">
+                    <button class="btn btn-outline-secondary" type="button" id="button-pesquisar">Pesquisar</button>
+                </div>
 
-                    <!-- Lista de Colaboradores -->
+                <!-- Lista de Colaboradores -->
+                <div class="table-responsive">
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="table-dark">
                             <tr>
-                                <th>ID</th>
+                                <th class="text-center">ID</th>
                                 <th>Nome</th>
                                 <th>Telefone</th>
                                 <th>CPF</th>
@@ -65,113 +65,115 @@
                         </thead>
                         <tbody>
                             <tr th:each="colaborador : ${colaboradores}">
-                                <td th:text="${colaborador.id}"></td>
+                                <td class="text-center" th:text="${colaborador.id}"></td>
                                 <td th:text="${colaborador.nome}"></td>
                                 <td th:text="${colaborador.telefone}"></td>
                                 <td th:text="${colaborador.cpf}"></td>
                                 <td th:text="${colaborador.cargo.cargo}"></td>
                                 <td th:text="'R$ ' + ${#numbers.formatDecimal(colaborador.salario, 2, 'POINT', 2, 'COMMA')}"></td>
-                                <td class="d-flex justify-content-center">
-                                    <a th:href="@{'/editar-colaborador/' + ${colaborador.id}}" class="btn btn-warning btn-sm btn-custom">Editar</a>
-                                    <a th:href="@{'/colaboradores/deletar/' + ${colaborador.id}}" class="btn btn-danger btn-sm btn-custom" th:attr="data-nome=${colaborador.nome}" onclick="return confirmarExclusao(this)">Excluir</a>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{'/editar-colaborador/' + ${colaborador.id}}" class="btn btn-warning btn-sm btn-custom">Editar</a>
+                                        <a th:href="@{'/colaboradores/deletar/' + ${colaborador.id}}" class="btn btn-danger btn-sm btn-custom" onclick="return confirmarExclusao(this)">Excluir</a>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <!-- Modal de Cadastro Colaborador -->
-                    <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white">
-                                    <h5 class="modal-title" id="cadastroModalLabel">Cadastrar Novo Colaborador</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{/cadastrar-colaborador}" method="post" th:object="${colaborador}" class="form" onsubmit="return validarCamposAoSalvar();">
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="nome" class="form-label">Nome Completo:</label>
-                                                <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite o nome completo" required>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="telefone" class="form-label">Telefone:</label>
-                                                <input type="text" class="form-control" id="telefone" th:field="*{telefone}" placeholder="Digite o telefone" required>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="cpf" class="form-label">CPF:</label>
-                                                <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="Digite o CPF" required>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="cargo" class="form-label">Cargo:</label>
-                                                <select class="form-select" id="cargo" th:field="*{cargo}" required>
-                                                    <option value="" selected disabled>Selecione o cargo</option>
-                                                    <option th:each="cargo : ${cargos}" th:value="${cargo.id}" th:text="${cargo.cargo}"></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-12">
-                                                <label for="salario" class="form-label">Salário:</label>
-                                                <input type="text" class="form-control" id="salario" th:field="*{salario}" placeholder="Digite o salário" required>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Cadastrar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal Novo Cargo -->
-                    <div class="modal fade" id="cadastroCargoModal" tabindex="-1" aria-labelledby="cadastroCargoModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header bg-warning text-white">
-                                    <h5 class="modal-title" id="cadastroCargoModalLabel">Novo Cargo</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{/cadastrar-cargo}" method="post" th:object="${cargo}" class="form">
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="cargo" class="form-label">Nome do cargo:</label>
-                                                <input type="text" class="form-control" id="cargo" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-success">Cadastrar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
+                <!-- Modal de Cadastro Colaborador -->
+                <div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="cadastroModalLabel">Cadastrar Novo Colaborador</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{/cadastrar-colaborador}" method="post" th:object="${colaborador}" class="form" onsubmit="return validarCamposAoSalvar();">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="nome" class="form-label">Nome Completo:</label>
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite o nome completo" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="telefone" class="form-label">Telefone:</label>
+                                            <input type="text" class="form-control" id="telefone" th:field="*{telefone}" placeholder="Digite o telefone" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="cpf" class="form-label">CPF:</label>
+                                            <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="Digite o CPF" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cargo" class="form-label">Cargo:</label>
+                                            <select class="form-select" id="cargo" th:field="*{cargo}" required>
+                                                <option value="" selected disabled>Selecione o cargo</option>
+                                                <option th:each="cargo : ${cargos}" th:value="${cargo.id}" th:text="${cargo.cargo}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="salario" class="form-label">Salário:</label>
+                                            <input type="text" class="form-control" id="salario" th:field="*{salario}" placeholder="Digite o salário" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Novo Cargo -->
+                <div class="modal fade" id="cadastroCargoModal" tabindex="-1" aria-labelledby="cadastroCargoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning text-white">
+                                <h5 class="modal-title" id="cadastroCargoModalLabel">Novo Cargo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{/cadastrar-cargo}" method="post" th:object="${cargo}" class="form">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="cargo" class="form-label">Nome do cargo:</label>
+                                            <input type="text" class="form-control" id="cargo" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-        <script th:src="@{/js/script.js}"></script>
-        <script>
-                                        $(document).ready(function () {
-                                            if ($('.custom-alert').length) {
-                                                setTimeout(function () {
-                                                    $('.custom-alert').alert('close');
-                                                }, 5000); // Fecha o alerta após 5 segundos
-                                            }
-                                        });
-        </script>
-
-    </body>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('.custom-alert').length) {
+                setTimeout(function () {
+                    $('.custom-alert').alert('close');
+                }, 5000); // Fecha o alerta após 5 segundos
+            }
+        });
+    </script>
+</body>
 </html>
