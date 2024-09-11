@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Inicializa a máscara de moeda no campo de salário e valor mensalidade
+// Inicializa a máscara de moeda no campo de mensalidade e valor mensalidade
 document.addEventListener("DOMContentLoaded", function () {
     var mensalidadenput = document.getElementById('mensalidade');
     var mensalidadeValue = mensalidadenput.value;
@@ -151,6 +151,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     new Cleave('#mensalidade', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand', // Ponto como separador de milhar
+        numeralDecimalMark: ',', // Vírgula como separador decimal
+        delimiter: '.', // Ponto como delimitador
+        numeralPositiveOnly: true
+    });
+});
+
+// Inicializa a máscara de moeda no campo de valor
+document.addEventListener("DOMContentLoaded", function () {
+    var valorInput = document.getElementById('valor');
+    var valorValue = valorInput.value;
+
+    // Formata o valor manualmente se necessário
+    if (valorValue) {
+        valorInput.value = parseFloat(valorValue).toFixed(2).replace('.', ',');
+    }
+
+    new Cleave('#valor', {
         numeral: true,
         numeralThousandsGroupStyle: 'thousand', // Ponto como separador de milhar
         numeralDecimalMark: ',', // Vírgula como separador decimal

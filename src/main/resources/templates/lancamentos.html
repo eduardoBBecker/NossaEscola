@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Lançamentos</title>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <header th:insert="~{sidebar.html}"></header>
+
+            <div class="container-fluid mt-5">
+                <div class="row">
+                    <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                        <h2 class="mb-4 text-primary">NOVO LANÇAMENTO</h2>
+                        <form th:action="@{/salvar-lancamento}" method="post" th:object="${lancamento}" class="form" onsubmit="return validarCamposAoSalvar();">
+
+                            <div class="mb-3">
+                                <label for="dataLancamento" class="form-label">Data:</label>
+                                <input type="date" class="form-control" id="dataLancamento" name="dataLanc" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tipo" class="form-label">Tipo:</label>
+                                <select class="form-select" id="tipo" name="tipo" required>
+                                    <option value="" disabled selected>Selecione o tipo</option>
+                                    <option value="Receita">Receita</option>
+                                    <option value="Despesa">Despesa</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label">Categoria:</label>
+                                <select class="form-select" id="categoria" name="categoria" required>
+                                    <option value="" disabled selected>Selecione a categoria</option>
+                                    <option value="Aluguel">Aluguel</option>
+                                    <option value="Impostos">Impostos</option>
+                                    <option value="Salarios">Salarios</option>
+                                    <option value="Saúde">Saúde</option>
+                                    <option value="Mensalidades">Mensalidades</option>
+                                    <option value="Alimentação">Alimentação</option>
+                                    <option value="Prestadores">Prestadores de Serviço</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="valor" class="form-label">Valor:</label>
+                                <input type="text" class="form-control" id="valor" name="valor" placeholder="Informe o valor" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descricao" class="form-label">Descrição:</label>
+                                <input type="text" class="form-control" id="descricao" name="descricao">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Salvar</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+            <script th:src="@{/js/script.js}"></script>
+
+    </body>
+</html>
