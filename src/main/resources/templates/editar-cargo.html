@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cadastro de Cargos</title>
+    <title>Editar Cargo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Estilo personalizado -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
+        /* Personalização do layout */
         .container-custom {
             max-width: 800px;
             margin: auto;
+            margin-top: 20px;
         }
         .header-title {
             margin-top: 2rem;
@@ -35,34 +39,49 @@
 </head>
 <body>
 
+    <!-- Inserindo o sidebar -->
     <header th:insert="~{sidebar.html}"></header>
 
+    <!-- Conteúdo da página -->
     <div class="container-fluid mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8 container-custom">
-                <h2 class="mb-4 text-primary">Editando o Cargo</h2>
-                
-                <form th:action="@{/salvar-edicao-cargo}" method="post" th:object="${cargo}" class="form" onsubmit="return validarCamposAoSalvar();">
-
-                    <input type="hidden" th:field="*{id}" />
-
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome do Cargo:</label>
-                        <input type="text" class="form-control" id="nome" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
-                    </div>
-                    
-                    <div class="d-flex justify-content">
-                        <button type="submit" class="btn btn-success btn-custom me-2">Salvar</button>
-                        <a th:href="@{/cargos}" class="btn btn-secondary btn-custom">Cancelar</a>
-                    </div>
-                </form>
-            </div>
+        <div class="row">
+            <!-- Sidebar ocupará a coluna 3 e o conteúdo principal a coluna 9 -->
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                <!-- Título da página -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="text-primary">Editar Cargo</h2>
+                </div>
+                <!-- Formulário de edição -->
+                <div class="container-custom">
+                    <form th:action="@{/salvar-edicao-cargo}" method="post" th:object="${cargo}" class="form" onsubmit="return validarCamposAoSalvar();">
+                        <!-- Campo oculto para ID -->
+                        <input type="hidden" th:field="*{id}" />
+                        
+                        <!-- Campo Nome do Cargo -->
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome do Cargo:</label>
+                            <input type="text" class="form-control" id="nome" th:field="*{cargo}" placeholder="Digite o nome do cargo" required>
+                        </div>
+                        
+                        <!-- Botões Salvar e Cancelar -->
+                        <div class="d-flex justify-content-start">
+                            <button type="submit" class="btn btn-success btn-custom me-2">Salvar</button>
+                            <a th:href="@{/cargos}" class="btn btn-secondary btn-custom">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>           
         </div>
     </div>
 
+    <!-- Bootstrap JS Bundle -->
     <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Cleave.js para formatação -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+    <!-- Script personalizado -->
     <script th:src="@{/js/script.js}"></script>
+
 </body>
 </html>

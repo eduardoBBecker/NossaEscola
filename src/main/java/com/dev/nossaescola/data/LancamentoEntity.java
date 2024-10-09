@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.Data;
 
 @Entity
@@ -15,7 +16,7 @@ public class LancamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String dataLanc;
+    private LocalDate dataLanc;
     private String tipo;
     private String categoria;
     private Double valor;

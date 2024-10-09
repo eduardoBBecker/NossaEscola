@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
                         <h2 class="mb-4 text-primary">NOVO LANÇAMENTO</h2>
-                        <form th:action="@{/salvar-lancamento}" method="post" th:object="${lancamento}" class="form" onsubmit="return validarCamposAoSalvar();">
+                        <form th:action="@{/lancamentos/salvar-lancamento}" method="post" th:object="${lancamento}" class="form" id="formLancamento" onsubmit="return validarCamposAoSalvar();">
 
                             <div class="mb-3">
                                 <label for="dataLancamento" class="form-label">Data:</label>
@@ -38,6 +38,7 @@
                                     <option value="Aluguel">Aluguel</option>
                                     <option value="Impostos">Impostos</option>
                                     <option value="Salarios">Salarios</option>
+                                    <option value="Salarios">Insumos</option>
                                     <option value="Saúde">Saúde</option>
                                     <option value="Mensalidades">Mensalidades</option>
                                     <option value="Alimentação">Alimentação</option>
@@ -57,7 +58,32 @@
 
                             <button type="submit" class="btn btn-success">Salvar</button>
 
+                            <!-- Botão Cancelar -->
+                            <a th:href="@{/lancamentos/listar}" class="btn btn-secondary ms-2">Cancelar</a>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Sucesso -->
+            <div class="modal fade" id="sucessoModal" tabindex="-1" aria-labelledby="sucessoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="sucessoModalLabel">
+                                <i class="bi bi-check-circle-fill me-2"></i> Sucesso!
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-4">
+                                <i class="bi bi-check-circle display-4 text-success"></i>
+                            </p>
+                            <h6 class="text-muted">O lançamento foi salvo com sucesso!</h6>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Fechar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,6 +93,43 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
             <script th:src="@{/js/script.js}"></script>
+            <script>
+                            // Definir data máxima para a data de lançamento
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var hoje = new Date().toISOString().split('T')[0];
+                                document.getElementById('dataLancamento').setAttribute('max', hoje);
+                            });
 
+                            $(document).ready(function () {
+                                $("#formLancamento").submit(function (event) {
+                                    event.preventDefault(); // Impede o envio padrão do formulário
+
+                                    $.ajax({
+                                        url: $(this).attr('action'),
+                                        type: 'POST',
+                                        data: $(this).serialize(),
+                                        success: function (response) {
+                                            // Certifique-se que a resposta seja um objeto JSON
+                                            console.log(response);
+                                            if (response && response.sucesso) {
+                                                $('#sucessoModal').modal('show');
+                                            } else {
+                                                alert('Ocorreu um erro ao salvar o lançamento.');
+                                            }
+                                        },
+                                        error: function () {
+                                            alert('Erro na comunicação com o servidor.');
+                                        }
+                                    });
+                                });
+                            });
+
+                            $(document).ready(function () {
+                                // Quando o modal de sucesso for fechado, redireciona para a página de lançamentos
+                                $('#sucessoModal').on('hidden.bs.modal', function () {
+                                    window.location.href = "/lancamentos"; // Redireciona para a página de lançamentos
+                                });
+                            });
+            </script>
     </body>
 </html>

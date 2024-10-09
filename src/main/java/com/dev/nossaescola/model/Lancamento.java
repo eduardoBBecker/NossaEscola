@@ -1,8 +1,10 @@
 package com.dev.nossaescola.model;
 
+import java.time.LocalDate;
+
 public class Lancamento {
     
-    private String dataLanc;
+    private LocalDate dataLanc;
     private String tipo;
     private String categoria;
     private Double valor;
@@ -12,7 +14,7 @@ public class Lancamento {
         
     }
 
-    public Lancamento(String dataLanc, String tipo, String categoria, Double valor, String descricao) {
+    public Lancamento(LocalDate dataLanc, String tipo, String categoria, Double valor, String descricao) {
         this.dataLanc = dataLanc;
         this.tipo = tipo;
         this.categoria = categoria;
@@ -20,11 +22,11 @@ public class Lancamento {
         this.descricao = descricao;
     }
 
-    public String getDataLanc() {
+    public LocalDate getDataLanc() {
         return dataLanc;
     }
 
-    public void setDataLanc(String dataLanc) {
+    public void setDataLanc(LocalDate dataLanc) {
         this.dataLanc = dataLanc;
     }
 
@@ -60,6 +62,4 @@ public class Lancamento {
         this.descricao = descricao;
     }
 
-    
-    
 }

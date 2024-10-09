@@ -5,16 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Sidebar</title>
 
-        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-        <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
-
+        <!-- Substitua pela URL correta do Bootstrap -->
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/sidebar.css" />
     </head>
     <body>
 
         <!-- Barra de Navegação -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{/lista-alunos}">
+                <a class="navbar-brand" href="/lista-alunos">
                     NOSSA ESCOLA
                 </a>
             </div>
@@ -33,34 +33,36 @@
                         </div>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/lista-alunos}">
-                                    Alunos
-                                </a>
+                                <a class="nav-link" href="/lista-alunos">Alunos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/colaboradores}">
-                                    Colaboradores
-                                </a>
+                                <a class="nav-link" href="/colaboradores">Colaboradores</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/responsaveis}">
-                                    Responsáveis
-                                </a>
+                                <a class="nav-link" href="/responsaveis">Responsáveis</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/relatorio-mensalidades}">
-                                    Mensalidades
-                                </a>
+                                <a class="nav-link" href="/relatorio-mensalidades">Mensalidades</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/cargos}">
-                                    Cargos
-                                </a>
+                                <a class="nav-link" href="/cargos">Cargos</a>
                             </li>
+
+                            <!-- Lançamentos usando collapse -->
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/lancamentos}">
+                                <a class="nav-link" data-bs-toggle="collapse" href="#lancamentosMenu" role="button" aria-expanded="false" aria-controls="lancamentosMenu">
                                     Lançamentos
                                 </a>
+                                <div class="collapse" id="lancamentosMenu">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/lancamentos">Novo</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/lancamentos/listar">Buscar</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -68,19 +70,8 @@
             </div>
         </div>
 
-        <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-        <script>
-            const url = window.location.href;
+        <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-            const menuItems = document.querySelectorAll('#sidebar a');
-
-            for (let i = 0; i < menuItems.length; i++) {
-                if (url.includes(menuItems[i].href)) {
-                    menuItems[i].classList.add('active');
-                } else {
-                    menuItems[i].classList.remove('active');
-                }
-            }
-        </script>
     </body>
 </html>

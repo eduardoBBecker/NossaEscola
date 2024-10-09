@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Listar Lançamentos</title>
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <header th:insert="~{sidebar.html}"></header>
+
+            <div class="container-fluid mt-5">
+                <div class="row">
+                    <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="text-primary">LANÇAMENTOS</h2>
+                            <a th:href="@{'/lancamentos'}" class="btn btn-success">+ Lançamento</a>
+                        </div>
+
+                        <!-- Filtros -->
+                        <form method="get" th:action="@{/lancamentos/listar}">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="dataInicio" class="form-label">Data Início:</label>
+                                    <input type="date" class="form-control" id="dataInicio" name="dataInicio">
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="dataFim" class="form-label">Data Fim:</label>
+                                    <input type="date" class="form-control" id="dataFim" name="dataFim">
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="tipo" class="form-label">Tipo:</label>
+                                    <select class="form-select" id="tipo" name="tipo">
+                                        <option value="" selected>Todos</option>
+                                        <option value="Receita">Receita</option>
+                                        <option value="Despesa">Despesa</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="categoria" class="form-label">Categoria:</label>
+                                    <select class="form-select" id="categoria" name="categoria">
+                                        <option value="" selected>Todas</option>
+                                        <option value="Aluguel">Aluguel</option>
+                                        <option value="Impostos">Impostos</option>
+                                        <option value="Salarios">Salarios</option>
+                                        <option value="Saúde">Saúde</option>
+                                        <option value="Mensalidades">Mensalidades</option>
+                                        <option value="Alimentação">Alimentação</option>
+                                        <option value="Prestadores">Prestadores de Serviço</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </form>
+
+                        <!-- Tabela de lançamentos -->
+                        <table class="table table-striped mt-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Categoria</th>
+                                    <th scope="col">Descrição</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="lancamento : ${lancamentos}">
+                                    <td th:text="${#temporals.format(lancamento.dataLanc, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${lancamento.tipo}"></td>
+                                    <td th:text="${lancamento.categoria}"></td>
+                                    <td th:text="${lancamento.descricao}"></td>
+                                    <td th:text="'R$ ' + ${#numbers.formatDecimal(lancamento.valor, 2, 'POINT', 2, 'COMMA')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+        <script th:src="@{/js/script.js}"></script>
+    </body>
+</html>

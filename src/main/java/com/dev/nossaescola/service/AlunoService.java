@@ -4,6 +4,7 @@ import com.dev.nossaescola.data.AlunoEntity;
 import com.dev.nossaescola.data.AlunoRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,9 @@ public class AlunoService {
 
     public List<AlunoEntity> listarTodosAlunos() {
         List<AlunoEntity> alunos = alunoRepository.findAll();
+
+        // Ordenar os alunos por nome em ordem alfabética
+        alunos.sort(Comparator.comparing(AlunoEntity::getNome));
 
         SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatoDesejado = new SimpleDateFormat("dd/MM/yyyy");

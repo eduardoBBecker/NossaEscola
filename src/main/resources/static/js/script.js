@@ -1,8 +1,9 @@
 $(document).ready(function () {
-    $("#button-pesquisar").on("click", function () {
-        var value = $("#inputPesquisa").val().toLowerCase();
+    $("#inputPesquisa").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
         $(".table tbody tr").filter(function () {
-            $(this).toggle($(this).find('td:nth-child(2)').text().toLowerCase().indexOf(value) > -1);
+            // Busca o nome do aluno (primeira célula)
+            $(this).toggle($(this).find('td:nth-child(1)').text().toLowerCase().indexOf(value) > -1);
         });
     });
 });
